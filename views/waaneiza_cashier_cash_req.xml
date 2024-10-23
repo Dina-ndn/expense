@@ -1,0 +1,214 @@
+<odoo>
+    <data>
+        <!-- Tree view  -->
+        <record id="waaneiza_cashier_cash_requisition_tree" model="ir.ui.view">
+            <field name="name">tree.waaneiza.cashier.cash.requisition</field>
+            <field name="model">waaneiza.cashier.cash.req</field>
+            <field name="arch" type="xml">
+                <tree string="Waaneiza Cashier Cash Requisition">
+                    <field name="name"/>
+                    <field name="date"/>
+                   <field name="total_amount" widget="monetary" decoration-bf="1" options="{'currency_field':'currency_id'}"/>
+                    <field name="currency_id" invisible="1"/>
+                    <field name="state" optional="show" widget="badge" decoration-success="state == 'done' or state == 'confirm'"
+                        decoration-warning="state == 'cancel' or state == 'refuse'" decoration-info="state == 'draft' or state == 'tosubmit'"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="waaneiza_cashier_cash_requisition_kanban" model="ir.ui.view">
+            <field name="name">waaneiza.cashier.cash.requisition.kanban</field>
+            <field name="model">waaneiza.cashier.cash.req</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_mobile" sample="1">
+                    <field name="name"/>
+                    <field name="requested_by_name"/>
+                    <field name="currency_id" invisible="1"/>
+                    <field name="total_amount" widget="monetary" decoration-bf="1" options="{'currency_field':'currency_id'}"/>
+                    <!-- <field name="total_amount"/> -->
+                    <field name="date"/>
+                    <field name="state"/>
+                    <!-- <field name="currency_id"/> -->
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <strong class="o_kanban_record_title"><span><t t-esc="record.name.value"/></span></strong>
+                                        <strong class="o_kanban_record_subtitle float-right"><span class="text-right">
+                                        <field name="currency_id" invisible="1"/><field name="total_amount" widget="monetary" decoration-bf="1" options="{'currency_field':'currency_id'}"/></span></strong>
+                                    </div>
+                                </div>
+                                <div class="row mt8">
+                                    <div class="col-6 text-muted">
+                                        <span><t t-esc="record.requested_by_name.value"/> <t t-esc="record.date.value"/></span>
+                                    </div>
+                                    <div class="col-6">
+                                        <span class="float-right text-right">
+                                            <field name="state" widget="label_selection" options="{'classes': {'draft': 'default', 'tosubmit': 'default', 'cancel': 'danger', 'approve': 'warning',
+                                            'done': 'success'}}"/>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+    <record id="waaneiza_cashier_cash_req_form_view" model="ir.ui.view">
+            <field name="name">waaneiza.cashier.cash.req.form.view</field>
+            <field name="model">waaneiza.cashier.cash.req</field>
+            <field name="arch" type="xml">
+                <form string="Waaneiza Cashier Cash Requisition">
+                    <header>
+                        <field name="show_validate" invisible="1"/>  
+                        <field name="is_visible_cashdrawing" invisible="1"/>  
+                        <button name="action_cashdrawing_amount" type="object" class="oe_highlight" string="Cash Drawing"  context="{'default_req_id': id}" invisible ="state not in ['done']"/>
+                        <!-- <button name="action_cashdrawing_amount" type="object" class="oe_highlight" string="Cash Drawing"  context="{'default_req_id': id}" groups="waaneiza_expense_cashier.group_cashier_officer" invisible ="state not in ['done']"/> -->
+                        
+                        
+                        <field name="is_visible" invisible="1"/>
+                        <button name="action_approve_requisition" type="object" class="oe_highlight" string="Approved" invisible="is_visible != True"/>
+
+                        <button name="action_confirm" id="button_confirm" string="Submit to Manager" class="oe_highlight" invisible="state not in ('checked')" type="object"/>
+
+                        <button name="action_done" id="button_done" string="Mark As Done" class="oe_highlight" invisible="state not in ('approve')" type="object"/>
+
+                        <button name="action_draft" id="button_draft" string="Draft" class="oe_highlight" invisible="state not in ('cancel')" type="object"/>
+                        <button name="action_submit_to_check" id="button_tosubmit" string="Submit To Check" invisible="state not in ('draft')" class="oe_highlight"  type="object"/>
+
+                        <field name="is_visible_check" invisible="1"/>
+                        <button name="action_check_requisition" type="object" class="oe_highlight" string="Checked" invisible="is_visible_check != True"/>
+
+                        <button name="action_cancel" id="button_cancel" string="Cancel" invisible="state not in ('tocheck')" type="object"/>
+                        
+                        <field name="state" widget="statusbar" options="{'clickable':'1'}" statusbar_visible="draft,tocheck,checked,confirm,approve,refuse,done"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button type="object"  name="action_view_cashdrawing"
+                                icon="fa-pencil-square-o" invisible="is_draw != 'Yes'">
+                                <field name="cashdrawing_count" widget="statinfo" string="Cashdrawing"/>
+                            </button>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="name" readonly ="state=='done'"/>
+                                <field name="is_draw" invisible="1"/>
+                                <field name="company_id" readonly ="state=='done'"/>
+                                <field name="test_user_id" invisible="True"/>
+                                <field name="test_user" invisible="True"/>
+                               <!--  <field name="is_refused" invisible="True"/> -->
+                            </group>
+                            <group>
+                                <field name="date" readonly ="state=='done'"/>
+                            </group>
+                        </group>
+                        <separator string="Cash Requistion Details"/>
+                        <field name="requisition_details_lines" readonly ="state=='done'">
+                            <tree editable="bottom">
+                                <field name="sr_number"/>
+                                <field name="particular"/>
+                                <field name="amount" required="1"/>
+                                <field name="currency"/>
+                                <field name="remarks"/>
+                            </tree>
+                         </field>
+                        <group class="oe_subtotal_footer oe_right">
+                            <field name="total_amount"/>
+                        </group>
+                        <!-- Approved, Checked, Requested -->
+                       <group>
+                            <group>
+                                <group>
+                                    <label for="requested_by_process" string="Requested by:"/>
+                                </group>
+                                <group>
+                                    <field name="requested_by_process" readonly ="state=='done'"/>
+                                    <field name="requested_by_name" readonly ="state=='done'"/>
+                                    <field name="requested_job_id" readonly ="state=='done'"/>
+                                    <field name="requested_department_id" readonly ="state=='done'"/>
+                                </group>
+                            </group>
+                            <group>
+                                <group>
+                                    <label for="checked_by_process" string="Checked By:"/>
+                                </group>
+                                <group>
+                                    <field name="checked_by_process" readonly ="state=='done'"/>
+                                    <field name="checked_by_name" readonly ="state=='done'"/>
+                                    <field name="checked_job_id" readonly ="state=='done'"/>
+                                    <field name="checked_department_id" readonly ="state=='done'"/>
+                                </group>
+                            </group>
+                        </group>
+                        <group>  
+                            <group>
+                                <group>
+                                    <label for="approved_by_process" string="Approved by:"/>
+                                </group>
+                                <group>
+                                    <field name="approved_by_process" readonly ="state=='done'"/>
+                                    <field name="approved_by_name" readonly ="state=='done'"/>
+                                    <field name="approved_job_id" readonly ="state=='done'"/>
+                                    <field name="approved_department_id" readonly ="state=='done'"/>
+                                </group>
+                            </group>
+                            <group>
+                                <group>
+                                    <label for="approved_by_process_second" string="Second Approved by:"/>
+                                </group>
+                                <group>
+                                    <field name="approved_by_process_second"/>
+                                    <field name="approved_by_name_second"/>
+                                    <field name="approved_job_id_second"/>
+                                    <field name="approved_department_id_second"/>
+                                </group>
+                            </group>  
+                        </group>
+                        <group>  
+                            <group>
+                                <group>
+                                    <label for="approved_submit" string="Approved by:"/>
+                                </group>
+                                <group>
+                                    <field name="approved_submit"/>
+                                    <field name="approved_name"/>
+                                    <field name="approved_job"/>
+                                    <field name="approved_department"/>
+                                </group>
+                            </group>
+                            <group>
+                            </group>  
+                        </group>
+                    </sheet>
+                    <!-- Chatter -->
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="message_ids"/>
+                        <field name="activity_ids"/>
+                    </div>
+                    <!-- End Chatter -->
+                </form>
+            </field>
+        </record>
+
+      
+
+        <!-- Action -->
+        <record id="action_waaneiza_cashier_cash_requisition" model="ir.actions.act_window">
+            <field name="name">Waaneiza Cash Requisition</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">waaneiza.cashier.cash.req</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p>Create your first Waaneiza Cashier Cash Requisition!</p>
+            </field>
+        </record>
+
+        <menuitem id="waaneiza_exp_cash_out_root" name="Expense Cash In" parent="waaneiza_exp_advanced_settlement_root" sequence="30"/>
+
+        <menuitem id="waaneiza_expense_requisition_req" name="Expense Cash Requisition" parent="waaneiza_exp_cash_out_root" action="action_waaneiza_cashier_cash_requisition" sequence="5"/> 
+    </data>
+</odoo>

@@ -1,0 +1,55 @@
+<odoo>
+    <data>
+        <!-- Tree view -->
+        <record id="waaneiza_exp_code_sub_tree" model="ir.ui.view">
+            <field name="name">tree.waaneiza.exp.code.sub</field>
+            <field name="model">waaneiza.exp.acc.code.sub</field>
+            <field name="arch" type="xml">
+                <tree string="Waaneiza Expense Code Sub Heading" editable="bottom">
+                    <field name="name" required="1"/>
+                    <field name="description" required="1"/>
+                    <field name="account_code" required="1"/>
+                    <field name="acc_des" required="1"/>
+                </tree>
+            </field>
+        </record>
+    
+        <!-- Form view -->
+       <!--  <record id="waaneiza_exp_code_sub_form_view" model="ir.ui.view">
+            <field name="name">waaneiza.exp.code.sub.form.view</field>
+            <field name="model">waaneiza.exp.acc.code.sub</field>
+            <field name="arch" type="xml">
+                <form string="Waaneiza Expense Code Sub Heading" create="false">
+                    <sheet>
+                        <group>
+                            <field name="account_code"/>
+                            <field name="acc_des"/>
+                        </group>
+                        <group>
+                            <field name="name"/>
+                            <field name="amount" invisible="1"/>  
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="message_ids"/>
+                        <field name="activity_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record> -->
+
+        <!-- Action -->
+        <record id="action_waaneiza_exp_code_sub" model="ir.actions.act_window">
+            <field name="name">Waaneiza Expense Account Code Sub Heading</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">waaneiza.exp.acc.code.sub</field>
+            <field name="view_mode">tree</field>
+            <field name="help" type="html">
+                <p>Create your Waaneiza Expense Code Sub Heading!</p>
+            </field>
+        </record>
+        <menuitem id="waaneiza_exp_account_code_sub" name="Expense Account Sub Heading" parent="waaneiza_exp_acc_code_root" action="action_waaneiza_exp_code_sub"/> 
+
+    </data>
+</odoo>

@@ -1,0 +1,28 @@
+<odoo>
+    <record id="action_waaneiza_daily_cashin_cashbook_report" model="ir.actions.act_window">
+        <field name="name">Waaneiza Daily CashBook Cashin Report</field>
+        <field name="res_model">waaneiza.daily.cashin.cashbook</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+     <record id="waaneiza_daily_cashin_cashbook_report_tree" model="ir.ui.view">
+        <field name="name">waaneiza.daily.cashin.cashbook.tree</field>
+        <field name="model">waaneiza.daily.cashin.cashbook</field>
+        <field name="arch" type="xml">
+            <tree string="Waaneiza Daily CashBook Cashin Report" create="false">
+                <field name="datetime" widget="date"/>
+                <field name="srn"/>
+                <field name="code" optional="show"/>
+                <field name="person" optional="show"/>
+                <field name="description"/>
+                <field name="cash_amount" sum="cash_amout" widget="monetary"/>
+                <field name="bank_amount" sum="bank_amount" widget="monetary"/>
+                <field name="bank_name"/>
+            </tree>
+        </field>
+    </record>
+
+    <menuitem id="waaneiza_daily_cashbook_cashin_root" name="Daily CashBook" parent="waaneiza_cashier_root" sequence='40'/>
+
+    <menuitem id="waaneiza_daily_cashbook_cashin_report_menu" name="Cash In Report" parent="waaneiza_daily_cashbook_cashin_root" action="action_waaneiza_daily_cashin_cashbook_report"/> 
+</odoo>

@@ -1,0 +1,156 @@
+<odoo>
+    <record id="waaneiza_resource_tree" model="ir.ui.view">
+        <field name="name">tree.waaneiza.resource.advance</field>
+        <field name="model">waaneiza.resource.advance</field>
+        <field name="arch" type="xml">
+            <tree string="Waaneiza Resource Advance Settlement">
+                <field name="vr_name"/>
+                <field name="process_name"/>
+                <field name="uti_name"/>
+                <field name="datetime"/>
+            </tree>
+        </field>
+    </record>
+    <record id="waaneiza_resource_kanban" model="ir.ui.view">
+            <field name="name">waaneiza.resource.advance.kanban</field>
+            <field name="model">waaneiza.resource.advance</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_mobile" sample="1">
+                    <field name="vr_name"/>
+                    <field name="prepared_by_process"/>
+                    <field name="currency_id" invisible="1"/>
+                    <field name="total_amount" widget="monetary" decoration-bf="1" options="{'currency_field':'currency_id'}"/>
+                    <!-- <field name="total_amount"/> -->
+                    <field name="datetime"/>
+                    <field name="state"/>
+                    <!-- <field name="currency_id"/> -->
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <strong class="o_kanban_record_title"><span><t t-esc="record.vr_name.value"/></span></strong>
+                                        <strong class="o_kanban_record_subtitle float-right"><span class="text-right">
+                                        <field name="currency_id" invisible="1"/><field name="total_amount" widget="monetary" decoration-bf="1" options="{'currency_field':'currency_id'}"/></span></strong>
+                                    </div>
+                                </div>
+                                <div class="row mt8">
+                                    <div class="col-6 text-muted">
+                                        <span><t t-esc="record.prepared_by_process.value"/> <t t-esc="record.datetime.value"/></span>
+                                    </div>
+                                    <div class="col-6">
+                                        <span class="float-right text-right">
+                                            <field name="state" widget="label_selection" options="{'classes': {'draft': 'default', 'tosubmit': 'default', 'cancel': 'danger', 'approve': 'warning',
+                                            'done': 'success'}}"/>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+    <!-- Form view of Settment Model -->
+     <record id="waaneiza_resource_form_view" model="ir.ui.view">
+            <field name="name">waaneiza.resource.advance.form.view</field>
+            <field name="model">waaneiza.resource.advance</field>
+            <field name="arch" type="xml">
+                <form string="Waaneiza Resource Advance Settlement">
+                    <header>
+                        <field name="is_visible" invisible="1"/>
+                        <button name="action_approve_requisition" type="object" class="oe_highlight" string="Approved" 
+                        invisible ="is_visible != True"/>
+
+                       <button name="action_confirm" id="button_confirm" string="Submit to Manager" class="btn-primary" invisible="state not in ('checked')" type="object"/>
+
+                        <button name="action_done" id="button_done" string="Mark As Done" class="btn-primary" invisible="state not in ('approve')" type="object"/>
+
+                        <button name="action_draft" id="button_draft" string="Draft" class="btn-primary" invisible="state not in ['cancel']" type="object"/>
+
+                        <button name="action_submit_to_check" id="button_tosubmit" string="Submit To Check" invisible="state not in ['draft']" class="oe_highlight"  type="object"/>
+
+                        <field name="is_visible_check" invisible="1"/>
+
+                        <button name="action_check_requisition" type="object" class="oe_highlight" string="Checked" 
+                        invisible="is_visible_check != True"/>
+
+                        <button name="action_cancel" id="button_cancel" string="Cancel" invisible="state not in ['draft','confirm']" type="object"/>
+
+                        <field name="state" widget="statusbar" options="{'clickable':'1'}" statusbar_visible="draft,tocheck,checked,confirm,approve,refuse,done"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                        </div>
+                        <group>
+                                <group>
+                                    <field name="uti_name" readonly ="state=='done'"/>
+                                    <field name="process_name" readonly ="state=='done'"/>
+                                    <field name="company_id" readonly ="state=='done'"/>
+                                    <field name="department_id" readonly ="state=='done'"/>
+                                    <field name="vr_name" readonly ="state=='done'"/>
+                                </group>
+                                <group>
+                                    <field name="company_id" readonly ="state=='done'"/>
+                                    <field name="datetime" readonly ="state=='done'"/>
+                                    <field name="total" readonly ="state=='done'"/>
+                                    <field name="currency_id" readonly ="state=='done'"/>
+
+                                    <!-- <field name="datetime" readonly ="state=='done'"/> -->
+                                    <!-- <field name="total_amount" attrs="{'readonly':[('state','=','done')]}"/> -->
+                                    <!-- <field name="currency" readonly ="state=='done'"/> -->
+                                </group>
+                        </group>
+                        <separator string="Resource Info Lines"/>
+                        <field name="resource_details_lines">
+                            <tree editable="bottom">
+                                <field name="account_code_sub" readonly="False"/>
+                                <field name="account_description"/>
+                                <field name="vendor_id"/> 
+                                <field name="description"/>
+                                <field name="amount"/>
+                                <field name="currency"/>
+                            </tree>
+                        </field>
+                        <group class="oe_subtotal_footer oe_right">
+                            <field name="total_amount" readonly ="state=='done'"/>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="prepared_by_process" readonly ="state=='done'"/>
+                                <field name="prepared_by_name" readonly ="state=='done'"/>
+                                <field name="prepared_job_id" readonly ="state=='done'"/>
+                            </group>
+                            <group>
+                                <field name="checked_by_process" readonly ="state=='done'"/>
+                                <field name="checked_by_name" readonly ="state=='done'"/>
+                                <field name="checked_job_id" readonly ="state=='done'"/>
+                            </group>
+                             <group>
+                                <field name="approved_by_process" readonly ="state=='done'"/>
+                                <field name="approved_by_name" readonly ="state=='done'"/>
+                                <field name="approved_job_id" readonly ="state=='done'"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="message_ids"/>
+                        <field name="activity_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+    <record id="action_waaneiza_resource" model="ir.actions.act_window">
+        <field name="name">Waaneiza Resource Advance Settlement</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">waaneiza.resource.advance</field>
+        <field name="view_mode">tree,form,kanban</field>
+        <field name="help" type="html">
+            <p>Create your first Waaneiza Resource Advance Settlement form!</p>
+        </field>
+    </record>
+
+    <menuitem id="waaneiza_resource_advance" name="Waaneiza Resource Advance Settlement"  parent="waaneiza_utilization_root" action="action_waaneiza_resource" /> 
+</odoo>

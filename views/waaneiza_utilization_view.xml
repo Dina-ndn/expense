@@ -1,0 +1,139 @@
+<odoo>
+    <record id="waaneiza_utilization_tree" model="ir.ui.view">
+        <field name="name">tree.waaneiza.utilization</field>
+        <field name="model">waaneiza.utilization</field>
+        <field name="arch" type="xml">
+            <tree string="Waaneiza Utilization">
+                <field name="sr_name"/>
+                <field name="process_name"/>
+                <field name="type_of_uti"/>
+                <field name="datetime"/>
+            </tree>
+        </field>
+    </record>
+
+        <!-- Form view of Settment Model -->
+     <record id="waaneiza_utilization_form_view" model="ir.ui.view">
+            <field name="name">waaneiza.utilization.form.view</field>
+            <field name="model">waaneiza.utilization</field>
+            <field name="arch" type="xml">
+                <form string="Waaneiza Utilization">
+                    <header> 
+                       <button name="action_confirm" id="button_confirm" string="Confirm" class="btn-primary" invisible="state not in ('draft')" type="object"/>
+                        <button name="action_done" id="button_done" string="Mark As Done" class="btn-primary" invisible="state not in ('confirm')" type="object"/>
+                        <button name="action_draft" id="button_draft" string="Draft" class="btn-primary" invisible="state not in ['cancel']" type="object"/>
+                        <button name="action_cancel" id="button_cancel" string="Cancel" invisible="state not in ['draft','confirm']" type="object"/>
+                        <field name="state" widget="statusbar" options="{'clickable':'1'}" statusbar_visible="draft,done,confirm"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                        </div>
+                        <group>
+                                <group>
+                                    <field name="process_name" readonly ="state=='done'"/>
+                                    <field name="process_code" readonly ="state=='done'"/>
+                                    <field name="company_id" readonly ="state=='done'"/>
+                                    <field name="department_id" readonly ="state=='done'"/>
+                                    <field name="type_of_uti" readonly ="state=='done'"/>
+                                </group>
+                                <group>
+                                    <field name="sr_name" readonly ="state=='done'"/>
+                                    <field name="datetime" readonly ="state=='done'"/>
+                                    <field name="description" readonly ="state=='done'"/>
+                                </group>
+                        </group>
+                        <separator string="Utilization Info Lines"/>
+                            <field name="util_details_lines">
+                                <tree editable="bottom">
+                                    <field name="product_id"/>
+                                    <field name="bom_id"/>
+                                    <field name="product_tml_id" invisible="1"/>
+                                <!-- <field name="type_of_material"/> -->
+                                    <field name="product_qty"/>
+                                    <field name="price_unit"/>
+                                    <field name="product_uom"/>
+                                    <field name="currency"/>
+                                    <field name="total"/>
+                                </tree>
+                            </field>
+                        <group class="oe_subtotal_footer oe_right">
+                           <field name="total_amount"/>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="uti_by_name" readonly ="state=='done'"/>
+                                <field name="staff_id_uti" readonly ="state=='done'"/>
+                            </group>
+                            <group>
+                                <field name="approved_by_process" readonly ="state=='done'"/>
+                                <field name="approved_by_name" readonly ="state=='done'"/>
+                                <field name="staff_id_approve" readonly ="state=='done'"/>
+                                <field name="approved_job_id"/>
+                                <field name="approved_department_id"/>
+                               <!--  <field name="approved_by_name" readonly ="state=='done'"/>
+                                <field name="staff_id_approve" readonly ="state=='done'"/>
+                                <field name="approve_by_process" readonly ="state=='done'"/> -->
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="message_ids"/>
+                        <field name="activity_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+    <record id="waaneiza_utlization_kanban" model="ir.ui.view">
+            <field name="name">waaneiza.utilization.kanban</field>
+            <field name="model">waaneiza.utilization</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_mobile" sample="1">
+                    <field name="sr_name"/>
+                    <field name="uti_by_name"/>
+                    <field name="currency_id" invisible="1"/>
+                    <field name="total_amount" widget="monetary" decoration-bf="1" options="{'currency_field':'currency_id'}"/>
+                    <!-- <field name="total_amount"/> -->
+                    <field name="datetime"/>
+                    <field name="state"/>
+                    <!-- <field name="currency_id"/> -->
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <strong class="o_kanban_record_title"><span><t t-esc="record.sr_name.value"/></span></strong>
+                                        <strong class="o_kanban_record_subtitle float-right"><span class="text-right">
+                                        <field name="currency_id" invisible="1"/><field name="total_amount" widget="monetary" decoration-bf="1" options="{'currency_field':'currency_id'}"/></span></strong>
+                                    </div>
+                                </div>
+                                <div class="row mt8">
+                                    <div class="col-6 text-muted">
+                                        <span><t t-esc="record.uti_by_name.value"/> <t t-esc="record.datetime.value"/></span>
+                                    </div>
+                                    <div class="col-6">
+                                        <span class="float-right text-right">
+                                            <field name="state" widget="label_selection" options="{'classes': {'draft': 'default', 'toapprove': 'info', 'cancel': 'danger', 'approve': 'warning',
+                                            'done': 'success'}}"/>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+    <record id="action_waaneiza_utilization" model="ir.actions.act_window">
+        <field name="name">Waaneiza Utilization</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">waaneiza.utilization</field>
+        <field name="view_mode">tree,form,kanban</field>
+        <field name="help" type="html">
+            <p>Create your first Waaneiza Utilization form!</p>
+        </field>
+    </record>
+    <menuitem id="waaneiza_utilization_root" name="Utilization"  parent="waaneiza_exp_advanced_settlement_root"  sequence="100"/>
+    <menuitem id="waaneiza_utilization" name="Waaneiza Utilization" parent="waaneiza_utilization_root" action="action_waaneiza_utilization" /> 
+</odoo>

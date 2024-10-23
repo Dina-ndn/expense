@@ -1,0 +1,128 @@
+<odoo>
+     <template id="report_waaneiza_cash_requisition">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <div style="padding-top:50px;">
+                        <center>
+                            <h2> Waaneiza Requisition</h2>
+                            </center>
+                        </div>
+                            <br/>
+                            <br/>
+                            <br/>
+                        <div  style="float:left;width:80%;padding: 0 10px;">
+                            Date:
+                                <span t-field="o.date"></span><br/>
+                        </div>
+                        <div style="float:left;width:20%;padding: 0 10px;">
+                            Sr.No:
+                                <span t-field="o.name"></span><br/>
+                        </div>
+                        <br/>
+                        <br/>
+                        <br/>
+                         <table class="table table-sm table-bordered">
+                           <!--  <tr>
+                                <th rowspan="2" style="text-align:center">
+                                    <strong>Sr</strong>
+                                </th>
+                                <th rowspan="2"  style="text-align:center">
+                                    <strong>Particular</strong>
+                                </th>
+                                <th colspan="3"  style="text-align:center">
+                                    <strong>Amount</strong>
+                                </th>
+                                <th rowspan="2"  style="text-align:center">
+                                    <strong>Remark</strong>
+                                </th>
+                                
+                            </tr>
+                            <tr style="text-align:center">
+                                <th >Kyats</th>
+                                <th>USD</th>
+                                <th>FEC</th>
+                            </tr> -->
+                            <tr style="text-align:center">
+                                <th>
+                                    <strong>Sr</strong>
+                                </th>
+                                <th>
+                                    <strong>Particular</strong>
+                                </th>
+                                <th>
+                                    <strong>Amount</strong>
+                                </th>
+                                <th>
+                                    <strong>Currency</strong>
+                                </th>
+                                <th>
+                                    <strong>Remark</strong>
+                                </th>
+                                </tr>
+                            <tr t-foreach="o.requisition_details_lines" t-as="line" style="text-align:center">
+                                <td>
+                                    <span t-field="line.sr_number"/>
+                                </td>
+                                <td>
+                                    <span t-field="line.particular"/>
+                                </td>
+                                <td>
+                                    <span t-field="line.amount"/>
+                                </td>
+                                <td> <span t-field="line.currency"/>
+                                </td>
+                                <td>
+                                    <span t-field="line.remarks"/>
+                                </td>
+                            </tr>
+                        </table>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                         <div  style="float:left; height:470px;width:35%;padding: 0 10px;">
+                            Requested By:-------------------------<br/><br/>
+                            Name:
+                                <span t-field="o.requested_by_name"></span><br/>
+                            Rank:
+                                 <span t-field="o.requested_job_id"></span><br/>
+                            Department:
+                                 <span t-field="o.requested_department_id"></span>
+                        </div>
+                        <div style="float:left; height:470px;width:35%;padding: 0 10px;">
+                            Approved By:--------------------------<br/><br/>
+                            Name:
+                                <span t-field="o.approved_name"></span><br/>
+                            Rank:
+                                 <span t-field="o.approved_job"></span><br/>
+                            Department:
+                                 <span t-field="o.approved_department"></span>
+                        </div>
+                        <div style="float:left; height:470px;width:30%;padding: 0 10px;">
+                            Checked By:------------------------<br/><br/>
+                            Name:
+                                <span t-field="o.checked_by_name"></span><br/>
+                            Rank:
+                                 <span t-field="o.checked_job_id"></span><br/>
+                            Department:
+                                 <span t-field="o.checked_department_id"></span>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_waaneiza_cash_requisition" model="ir.actions.report">
+        <field name="name">Cash Requisition</field>
+        <field name="model">waaneiza.cashier.cash.req</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">waaneiza_expense_cashier.report_waaneiza_cash_requisition</field>
+        <field name="report_file">waaneiza_expense_cashier.report_cash_requisition</field>
+        <field name="print_report_name">'Expenses - %s - %s' % (object.requested_by_name, (object.name).replace('/', ''))</field>
+        <field name="binding_model_id" ref="model_waaneiza_cashier_cash_req"/>
+        <field name="binding_type">report</field>
+    </record> 
+</odoo>

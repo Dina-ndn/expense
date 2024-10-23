@@ -1,0 +1,118 @@
+<odoo>
+    <data>
+        <!--  Tree view of Cashier Cash in Transfer Model  -->
+        <record id="cashier_cash_in_transfer_tree" model="ir.ui.view">
+            <field name="name">cashier.cash.in.tranfer.tree</field>
+            <field name="model">cashier.cash.in.transfer</field>
+            <field name="arch" type="xml">
+                <tree string="Cash in Transfer">
+                    <field name="name"/>
+                    <field name="type_name"/>
+                    <field name="type"/>
+                    <field name="type_of_code"/>
+                    <field name="datetime"/>
+                    <field name="cash_in_code"/>
+                    <field name="total_amount" class="oe_subtotal_footer" sum="total_amount" widget="monetary"/>
+                    <field name="currency"/>
+                    <field name="state" optional="show" widget="badge" decoration-success="state == 'done' or state == 'confirm'"
+                        decoration-warning="state == 'cancel'" decoration-info="state == 'draft'"/>
+                </tree>
+            </field>
+        </record>
+        <!--  Form view of Cashier Cash in Transfer Model  -->
+        <record id="cashier_cash_in_transfer_form" model="ir.ui.view">
+            <field name="name">cashier.cash.in.tranfer.form</field>
+            <field name="model">cashier.cash.in.transfer</field>
+            <field name="arch" type="xml">
+                <form string="Cash in Transfer">
+                    <header>
+
+                        <button name="action_confirm" id="button_confirm" string="Confirm" class="btn-primary" invisible="state not in ('draft')" type="object"/>
+
+                        <button name="action_done" id="button_done" string="Mark As Done" class="btn-primary" invisible="state not in ('confirm')" type="object"/>
+
+                        <button name="action_cancel" id="button_cancel" string="Cancel" invisible="state not in ['draft','confirm']" type="object"/>
+
+                        <button name="action_draft" id="button_draft" string="Draft" class="btn-primary" invisible="state not in ['cancel']" type="object"/>
+
+                        <field name="state" widget="statusbar" options="{'clickable':'1'}" statusbar_visible="draft,done,confirm"/>
+                    </header>
+                    <div class="oe_button_box" name="button_box">
+                    </div>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="type_name" readonly ="state=='done'"/>
+                                <field name="type" readonly ="state=='done'"/>
+                                <field name="company_id" readonly ="state=='done'"/>
+                                <field name="type_of_code" readonly ="state=='done'"/>
+                            </group>
+                            <group>
+                                <field name="name" readonly ="state=='done'"/>
+                                <field name="datetime" readonly ="state=='done'"/>
+                                <field name="cash_in_code" readonly ="state=='done'"/>
+                                <field name="currency" readonly ="state=='done'"/>
+                                <field name="remarks" readonly ="state=='done'"/>
+                            </group>
+                        </group>
+                        <group>
+                            <separator string="Type of Transfer"/>
+                            <group>
+                                <field name="is_visible" invisible="1"/>
+                                <field name="type_of_transfer" readonly ="state=='done'"/>
+                               <!--  <field name="cash_in_bank" readonly ="state=='done'"/>
+                                <field name="bank_account" readonly ="state=='done'"/> -->
+                                <field name="bank_name_test"/>
+                                <field name="bank_account_test"/>
+                            </group>
+                        </group>
+                        <separator string="Cash in Transfer Details"/>
+                        <field name="cash_in_transfer_lines" readonly ="state=='done'">
+                            <tree editable="bottom">
+                                <field name="sr_no"/>
+                                <field name="datetime"/>
+                                <field name="vr_no"/>
+                                <field name="code"/>
+                                <field name="remarks"/>
+                                <field name="amount"/>
+                                <field name="cash_amount" column_invisible='1'/>
+                                <field name="bank_amount" column_invisible='1'/>
+                            </tree>
+                        </field>
+                        <group class="oe_subtotal_footer oe_right">
+                            <field name="total_amount"/>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="transfered_by_name" readonly ="state=='done'"/>
+                                <field name="transfered_staff_id" readonly ="state=='done'"/>
+                                <field name="transfered_process_code" readonly ="state=='done'"/>
+                            </group>
+                            <group>
+                                <field name="received_by_name" readonly ="state=='done'"/>
+                                <field name="received_staff_id" readonly ="state=='done'"/>
+                                <field name="received_process_code" readonly ="state=='done'"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <!--  Action of Cashier Cash in Transfer Model  -->
+        <record id="action_cashier_cash_in_transfer" model="ir.actions.act_window">
+            <field name="name">Cashier Cash in Transfer</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">cashier.cash.in.transfer</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p>Create your first Cash in Transfern!</p>
+            </field>
+        </record>
+
+        <menuitem id="waaneiza_cashier_root" name="Waaneiza Cashier"/>
+
+        <menuitem id="waaneiza_cashier_cash_in_root" name="Cashier Cash In" parent="waaneiza_cashier_root" sequence="10"/>
+
+        <menuitem id="cashier_cash_in_transfer_menu" name="Cash in Transfer" parent="waaneiza_cashier_cash_in_root" sequence="10" action="action_cashier_cash_in_transfer"/>
+    </data>
+</odoo>

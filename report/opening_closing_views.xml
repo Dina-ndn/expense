@@ -1,0 +1,21 @@
+<odoo>
+    <record id="action_opening_closing_report" model="ir.actions.act_window">
+        <field name="name">Opening Closing Balance</field>
+        <field name="res_model">opening.closing</field>
+        <field name="view_mode">tree</field>
+    </record>
+    
+    <record id="opening_closing_view_tree" model="ir.ui.view">
+        <field name="name">opening.closing.view.tree</field>
+        <field name="model">opening.closing</field>
+        <field name="arch" type="xml">
+            <tree string="Opening/Closing Analysis" create="false">
+                <field name="date" widget="date" invisible='1'/>
+                <field name="opening_cash_balance" optional="show"/>
+                <field name="closing_cash_balance" optional="show"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- <menuitem id="opening_closing_report_menu" name="Opening/Closing Report" parent="waaneiza_daily_cashbook_cashin_root"  action="action_opening_closing_report"/> -->
+</odoo>

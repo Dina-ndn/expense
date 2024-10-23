@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- expense start-->
+        <record id="seq_waaneiza_cash_requisition" model="ir.sequence">
+            <field name="name">Expense Cash Requisition Sequence</field>
+            <field name="code">waaneiza.cashier.cash.requisition.srn</field>
+            <field name="prefix">CR-</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field> 
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_waaneiza_expense_vr_code" model="ir.sequence">
+            <field name="name">Expense Sequence</field>
+            <field name="code">waaneiza.exp.settlement.vr</field>
+            <field name="prefix">SE-</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field> 
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_waaneiza_expense_info_code" model="ir.sequence">
+            <field name="name">Expense Sequence</field>
+            <field name="code">waaneiza.exp.settlement.info</field>
+            <field name="prefix">%(y)s/EXP</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field> 
+            <field name="number_increment">1</field> 
+            <field name="company_id" eval="False"/>
+        </record>
+         <record id="seq_waaneiza_return_serilnumber" model="ir.sequence">
+            <field name="name">Cash Return SrNo Sequence</field>
+            <field name="code">waaneiza.exp.return.srn</field>
+            <field name="prefix">RETURN-</field>
+            <field name="company_id" eval="False"></field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field> 
+            <field name="number_increment">1</field> 
+        </record>
+         <record id="seq_waaneiza_cashreturn_eco" model="ir.sequence">
+            <field name="name">Cash Return Sequence</field>
+            <field name="code">waaneiza.cashier.cashreturn.eco</field>
+            <!-- <field name="prefix">%(y)s/ECI-</field> -->
+            <field name="padding">5</field>
+            <field name="number_next">1</field> 
+            <field name="number_increment">1</field>
+            <!-- <field name="use_data_range" eval="1" />   -->
+            <field name="company_id" eval="False"/>
+        </record>
+        <!-- expense close-->
+
+        <!-- cashier start-->
+        <!-- Sequences for Cashdrawing SrNo -->
+        <record id="seq_waaneiza_cashdrawing_serilnumber" model="ir.sequence">
+            <field name="name">Cashdrawing SrNo Sequence</field>
+            <field name="code">waaneiza.cashier.cashdrawing.srn</field>
+            <field name="prefix">CD-</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field> 
+            <field name="number_increment">1</field> 
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_waaneiza_cashdrawing_eco" model="ir.sequence">
+            <field name="name">Cashdrawing Cash Out Sequence</field>
+            <field name="code">waaneiza.cashier.cashdrawing.eco</field>
+            <!-- <field name="prefix">%(y)s/ECO-</field> -->
+            <field name="padding">5</field>
+            <field name="number_next">1</field> 
+            <field name="number_increment">1</field>
+            <!-- <field name="use_data_range" eval="1" />   -->
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_waaneiza_cashier_cashin_transfer" model="ir.sequence">
+            <field name="name">Cashier Cashin Transfer Sequence</field>
+            <field name="code">waaneiza.cashier.cashin.transfer</field>
+            <!-- <field name="prefix">%(y)s/ECO-</field> -->
+            <field name="padding">5</field>
+            <field name="number_next">1</field> 
+            <field name="number_increment">1</field>
+            <!-- <field name="use_data_range" eval="1" />   -->
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_waaneiza_cashier_cashin_transfer_srn" model="ir.sequence">
+            <field name="name">Cashier Cashin SrNo Sequence</field>
+            <field name="code">waaneiza.cashier.cashin.transfer.srn</field>
+            <!-- <field name="prefix">CD-</field> -->
+            <field name="padding">5</field>
+            <field name="number_next">1</field> 
+            <field name="number_increment">1</field> 
+            <field name="company_id" eval="False"/>
+        </record>
+        <!--Start Hand to Bank Transfer -->
+        <record id="seq_waaneiza_cashier_htb_transfer" model="ir.sequence">
+            <field name="name">Cashier Hand to Bank Transfer</field>
+            <field name="code">waaneiza.cashier.htb.transfer</field>
+            <field name="prefix">%(y)s/BCO-</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field> 
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_waaneiza_cashier_htb_transfer_srn" model="ir.sequence">
+            <field name="name">Cashier Hand to Bank SrNo Sequence</field>
+            <field name="code">waaneiza.cashier.htb.transfer.srn</field>
+            <!-- <field name="prefix">CD-</field> -->
+            <field name="padding">5</field>
+            <field name="number_next">1</field> 
+            <field name="number_increment">1</field> 
+            <field name="company_id" eval="False"/>
+        </record>
+        <!--End Hand to Bank Transfer -->
+        <!--Start Bank to Hand Transfer -->
+        <record id="seq_waaneiza_cashier_bth_transfer" model="ir.sequence">
+            <field name="name">Cashier Bank to Hand Transfer</field>
+            <field name="code">waaneiza.cashier.bth.transfer</field>
+            <field name="prefix">%(y)s/BCI-</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field> 
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_waaneiza_cashier_bth_transfer_srn" model="ir.sequence">
+            <field name="name">Cashier Bank to Hand SrNo Sequence</field>
+            <field name="code">waaneiza.cashier.bth.transfer.srn</field>
+            <!-- <field name="prefix">CD-</field> -->
+            <field name="padding">5</field>
+            <field name="number_next">1</field> 
+            <field name="number_increment">1</field> 
+            <field name="company_id" eval="False"/>
+        </record>
+        <!--End Hant to Bank Transfer -->
+        <record id="seq_waaneiza_utilization" model="ir.sequence">
+            <field name="name">Waaneiza Utilization Seq</field>
+            <field name="code">waaneiza.utilization.seq</field>
+            <field name="prefix">UT-</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field> 
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+        </record> 
+        <record id="seq_waaneiza_resource_seq" model="ir.sequence">
+            <field name="name">Waaneiza Resource Seq</field>
+            <field name="code">waaneiza.resource.seq</field>
+            <field name="prefix">RS-</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field> 
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+        </record> 
+
+        <!-- cashier stop-->
+    </data> 
+</odoo>

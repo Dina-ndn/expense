@@ -1,0 +1,29 @@
+<odoo>
+    <record id="action_waaneiza_advance_cash_report" model="ir.actions.act_window">
+        <field name="name">Waaneiza Advance Cash Report</field>
+        <field name="res_model">waaneiza.advance.cash.report</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+     <record id="waaneiza_advance_cash_report_tree" model="ir.ui.view">
+        <field name="name">waaneiza.advance.cash.report.tree</field>
+        <field name="model">waaneiza.advance.cash.report</field>
+        <field name="arch" type="xml">
+            <tree string="Waaneiza Advance Cash Report" create="false">
+                <field name="date" widget="date"/>
+                <field name="cash_in_out_code" optional="show"/>
+                <field name="vr_no" optional="show"/>
+                <field name="process_id" optional="show"/>
+                <field name="remark" optional="show"/>
+                <field name="currency" invisible="1"/>
+                <field name="amount" sum="amount" widget="monetary" decoration-bf="1" options="{'currency_field':'currency'}"/>
+                <field name="expense_amount" sum="expense_amount" decoration-danger="expense_amount &lt; 1" widget="monetary" decoration-bf="1" options="{'currency_field':'currency'}"/>
+                <field name="net_surplus" sum="net_surplus" decoration-danger="net_surplus &lt; amount" decoration-success="net_surplus &gt; amount" widget="monetary" decoration-bf="1" optional="show" options="{'currency_field':'currency'}"/>
+            </tree>
+        </field>
+    </record>
+
+    <menuitem id="waaneiza_cashier_report_root" name="Reports" parent="waaneiza_cashier_root" sequence="50"/>
+
+    <menuitem id="waaneiza_advance_cash_report_menu" name="Advance Cash Report" parent="waaneiza_cashier_report_root" action="action_waaneiza_advance_cash_report"/> 
+</odoo>

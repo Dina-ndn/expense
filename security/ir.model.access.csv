@@ -1,0 +1,105 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+access_waaneiza_exp_acc_code,Waaneiza Expense Account Code,model_waaneiza_exp_acc_code,,1,1,1,1
+
+access_waaneiza_exp_acc_code_sub,Waaneiza Expense Sub Account Code,model_waaneiza_exp_acc_code_sub,,1,1,1,1
+
+access_waaneiza_expense_norm,Waaneiza Expense Norm,model_waaneiza_expense_norm,,1,1,1,1
+
+access_waaneiza_cashier_cash_req,Waaneiza Cashier Cash Requisition,model_waaneiza_cashier_cash_req,,1,1,1,1
+
+access_waaneiza_cashier_req_details,Waaneiza Cashier Cash Requisition Detail,model_waaneiza_cashier_req_details,,1,1,1,1
+
+access_waaneiza_exp_refuse_wizard,Waaneiza Expense Refuse Wizard,model_waaneiza_exp_refuse_wizard,,1,1,1,1
+
+access_waaneiza_cashier_cashdrawing,Waaneiza Cashier Cashdrawing,model_waaneiza_cashier_cashdrawing,,1,1,1,1
+
+access_waaneiza_exp_sett,Waaneiza Expense Settlement,model_waaneiza_exp_sett,,1,1,1,1
+
+access_waaneiza_exp_info,Waaneiza Expense Info,model_waaneiza_exp_info,,1,1,1,1
+
+access_waaneiza_expense_return,Waaneiza Expense Return,model_waaneiza_expense_return,,1,1,1,1
+
+access_expense_report_sett,Waaneiza Expense Report Sett,model_expense_report_sett,,1,1,1,1
+
+access_nom_expense_report,nom_expense_report,model_nom_expense_report,,1,1,1,1
+
+access_report_by_expense_code,report_by_expense_code,model_report_by_expense_code,,1,1,1,1
+
+access_expense_advance_report,expense_advance_report,model_expense_advance_report,,1,1,1,1
+
+access_expense_advance_report_sett,expense_advance_report_sett,model_expense_advance_report_sett,,1,1,1,1
+
+access_exp_req_report_sett,exp_req_report,model_exp_req_report,,1,1,1,1
+
+access_cashier_cash_in_transfer,Waaneiza Cashier Cash in Transfer,model_cashier_cash_in_transfer,,1,1,1,1
+
+access_cashier_cash_in_transfer_details,Waaneiza Cashier Cash in Transfer,model_cashier_cash_in_transfer_details,,1,1,1,1
+
+access_waaneiza_type_transfer,Waaneiza Waaneiza in Transfer,model_waaneiza_type_transfer,,1,1,1,1
+
+access_hand_to_bank_transfer,Waaneiza Waaneiza in Transfer,model_hand_to_bank_transfer,,1,1,1,1
+
+access_bank_to_hand_transfer,Waaneiza Waaneiza in Transfer,model_bank_to_hand_transfer,,1,1,1,1
+
+access_bank_to_bank_transfer,Waaneiza Waaneiza in Transfer,model_bank_to_bank_transfer,,1,1,1,1
+
+access_bank_to_bank_transfer_details,Waaneiza Waaneiza in Transfer,model_bank_to_bank_transfer_details,,1,1,1,1
+
+access_waaneiza_type_transfer_details,Waaneiza Waaneiza in Transfer,model_waaneiza_type_transfer_details,,1,1,1,1
+
+access_waaneiza_advance_cash_report,Waaneiza Advance Cash Report,model_waaneiza_advance_cash_report,,1,1,1,1
+
+access_waaneiza_cashin_transfer_report,Waaneiza Advance Cash Report,model_waaneiza_cashin_transfer_report,,1,1,1,1
+
+access_waaneiza_daily_cashin_cashbook,Waaneiza Advance Cash Report,model_waaneiza_daily_cashin_cashbook,,1,1,1,1
+
+access_waaneiza_cashout_transfer_report,Waaneiza Advance Cash Report,model_waaneiza_cashout_transfer_report,,1,1,1,1
+
+access_waaneiza_daily_cashout_cashbook,Waaneiza Advance Cash Report,model_waaneiza_daily_cashout_cashbook,,1,1,1,1
+
+access_exp_return_report,exp_return_report,model_exp_return_report,,1,1,1,1
+access_exp_return_noti_report,exp_return_noti_report,model_exp_return_noti_report,,1,1,1,1
+
+access_cashier_cashdrawing,Cahier CashDrawing,model_cashier_cashdrawing,,1,1,1,1
+
+access_waaneiza_cashin_cashout_cashbook,Cashin Cashout Cashbook,model_waaneiza_cashin_cashout_cashbook,,1,1,1,1
+
+access_waaneiza_opening_closing_balance,Opening Closing Balance,model_waaneiza_opening_closing_balance,,1,1,1,1
+
+access_waaneiza_opening_closing_alldate,Opening Closing Balance,model_waaneiza_opening_closing_alldate,,1,1,1,1
+
+access_opening_closing_all_date,Opening Closing All Date Balance,model_opening_closing_all_date,,1,1,1,1
+
+access_opening_closing,Opening Closing Balance,model_opening_closing,,1,1,1,1
+
+access_expense_report_for_cashier,Expense Report for Cashier,model_expense_report_for_cashier,,1,1,1,1
+
+
+access_waaneiza_utiliztion,Waaneiza Utilization,model_waaneiza_utilization,,1,1,1,1
+
+access_waaneiza_utiliztion_info,Waaneiza Utilization Info,model_waaneiza_utilization_info,,1,1,1,1
+
+access_waaneiza_resource_advance,Waaneiza Resource Advance,model_waaneiza_resource_advance,,1,1,1,1
+
+access_waaneiza_resource_info,Waaneiza Resource Info,model_waaneiza_resource_info,,1,1,1,1
+
+access_cashin_cashbook,Cashin Cashbook,model_cashin_cashbook,,1,1,1,1
+
+access_cashout_cashbook,Cashout Cashbook,model_cashout_cashbook,,1,1,1,1
+
+access_expense_resource_report,Expense Resource Report,model_expense_resource_report,,1,1,1,1
+
+access_utilization_expense_report,Utilization Expense Report,model_utilization_expense_report,,1,1,1,1
+
+access_expense_resource_sett,Expense Resource Sett,model_expense_resource_sett,,1,1,1,1
+
+access_income_statement,Income Statement,model_income_statement,,1,1,1,1
+
+access_financial_position,Financial Position,model_financial_position,,1,1,1,1
+
+
+
+
+
+

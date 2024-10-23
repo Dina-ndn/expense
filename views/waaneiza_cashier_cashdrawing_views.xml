@@ -1,0 +1,148 @@
+<odoo>
+    <data>
+        <!-- Tree view of HR Employee Process Model -->
+        <record id="cashier_cashdrawing_waaneiza_tree" model="ir.ui.view">
+            <field name="name">tree.cashier.cashdrawing.waaneiza</field>
+            <field name="model">waaneiza.cashier.cashdrawing</field>
+            <field name="arch" type="xml">
+                <tree string="Waaneiza Cashdrawing">
+                    <field name="name"/>
+                    <field name="cash_out_code"/>
+                    <field name="datetime"/>
+                    <field name="process_id"/>
+                    <field name="type_of_cashdrawing_select"/>
+                    <field name="reason_for_cashdrawing"/>
+                    <field name="currency" invisible="1"/>
+                    <field name="amount" sum="amount" widget="monetary" decoration-bf="1" options="{'currency_field':'currency'}"/>
+                    <field name="paid_by_name"/>
+                    <field name="attachment_number" nolabel="1" class='fa fa-paperclip pr-0' invisible ="attachment_number==0"/>
+                    <button name="action_get_attachment_view" string="Attachments" type="object" icon="fa-paperclip" invisible="1"/>
+                    <field name="state" optional="show" widget="badge" decoration-success="state == 'done' or state == 'confirm'"
+                        decoration-warning="state == 'cancel'" decoration-info="state == 'draft'"/>
+                    <field name="company_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form view of HR Employee Process Model -->
+        <record id="waaneiza_cashier_cashdrawing_form_view" model="ir.ui.view">
+            <field name="name">waaneiza.cashier.cashdrawing.form.view</field>
+            <field name="model">waaneiza.cashier.cashdrawing</field>
+            <field name="arch" type="xml">
+                <form string="Waaneiza Cashier Cashdrawing" >
+                    <header>
+                        <widget id="attach_document" highlight="1" name="attach_document" string="Attach Receipt" action="attach_document"  invisible ="state not in ['confirm']"/> 
+                        <field name="show_validate" invisible="1"/>  
+                        <field name="show_attatch" invisible="1"/> 
+                        <!--Eaindra  -->
+                        <button name="action_advance_settlement" type="object" class="oe_highlight" string="Advance Settlement" context="{'default_cash_drawing_srn': id}" invisible ="state in ['draft','cancel','confirm'] or show_validate == False" groups="waaneiza_expense_cashier.group_expense_user"/>
+
+                        <button name="action_confirm" id="button_confirm" string="Confirm" class="btn-primary" invisible ="state not in ['draft']" type="object"/>
+
+                        <!-- Eaindra -->
+                        <button name="action_to_agree" id="button_toagree" string="Submit To Agree" invisible ="state not in ['confirm']" class="oe_highlight" type="object"/>
+
+                        <!-- <button name="action_agree" id="button_agree" string="Agree" groups="waaneiza_expense_cashier.group_expense_user" class="btn-primary" invisible ="state not in ['toagree']" type="object"/> -->
+                        <button name="action_agree" id="button_agree" string="Agree" class="btn-primary" invisible ="state not in ['toagree']" type="object"/>
+
+                        <button name="action_done" id="button_done" string="Mark As Done" class="btn-primary" invisible ="state not in ['agree']" type="object"/>
+                        <button name="action_draft" id="button_draft" string="Draft" class="btn-primary" invisible ="state not in ['cancel']" type="object"/>
+                        <button name="action_cancel" id="button_cancel" string="Cancel" invisible ="state not in ['draft','confirm']" type="object"/>
+                        <field name="state" widget="statusbar" options="{'clickable':'1'}" statusbar_visible="draft,done,confirm,toagree,agree"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="action_get_attachment_view"
+                            class="oe_stat_button"
+                            icon="fa-file-text-o"
+                            type="object">
+                            <field name="attachment_number" widget="statinfo" string="Receipts" options="{'reload_on_button': true}"/>
+                            </button>
+                            <button type="object"  name="action_view_invoice" context="{'default_cashdrawing_id': id}"
+                                class="oe_stat_button"
+                                icon="fa-pencil-square-o" invisible ="state not in ['done']">
+                            <field name="invoice_count" widget="statinfo" string="Advance Settlement"/>
+                            </button>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="requisition_id" readonly ="state=='done'" options="{'no_open': True,'no_create_edit': True}"/>
+                                <field name="cash_out_code" readonly ="state=='done'"/>
+                                <field name="expense_settlement_id" readonly ="state=='done'" options="{'no_open': True,'no_create_edit': True}"/>
+                                <field name="return_line" readonly ="state=='done'" options="{'no_open': True,'no_create_edit': True}"/>
+                                <field name="cash_out_name" readonly ="state=='done'" invisible="1"/>
+                            </group>
+                            <group>
+                                <field name="name" readonly ="state=='done'"/>
+                                <field name="datetime" readonly ="state=='done'" required="1"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="process_id" readonly ="state=='done'" required="1"/>
+                                <field name="company_id" readonly ="state=='done'"/>
+                                <field name="process_code_employee" readonly ="state=='done'"/>
+                                <field name="department_id" readonly ="state=='done'"/>
+                            </group>
+                            <group>
+                                <field name="type_of_cashdrawing_select" readonly ="state=='done'" required="1"/>
+                                <field name="reason_for_cashdrawing" readonly ="state=='done'" required="1"/>
+                                <field name="is_visible_purcode" invisible="1"/>
+                                <field name="purchase_code" invisible ="is_visible_purcode != True"/>
+                                <field name="amount" readonly ="state=='done'" required="1"/>
+                                <field name="re_amount" readonly ="state=='done'" invisible="1"/>
+                                <field name="deficit_amt" invisible="1"/>
+                                <field name="currency" readonly ="state=='done'"/>
+                                <field name="amount_by_mmk" readonly ="state=='done'" invisible='1'/>
+                            </group>
+                            <separator string="Type of CashDrawing"/>
+                            <group>
+                                <field name="is_visible" invisible="1"/>
+                                <field name="type_of_drawing"/>
+                                <field name="bank_name" invisible ="is_visible!=True" readonly="state=='done'"/>
+                                <field name="bank_account" invisible ="is_visible!=True" readonly="state=='done'"/>
+                            </group>
+                            <group>
+                                <field name="is_advance" invisible="1"/>
+                                <field name="is_advance_test" invisible="1"/>
+                                <field name="is_advance_amount" invisible="1"/>
+                            </group>
+                        </group>
+                        <br/><br/>
+                        <group>
+                            <group>
+                                <field name="received_by_name" readonly="state=='done'" required="1"/>
+                                <field name="received_by_staff_id" readonly="state=='done'"/>
+                            </group>
+                            <group>
+                                <field name="paid_by_name" readonly="state=='done'" required="1"/>
+                                <field name="paid_by_staff_id" readonly="state=='done'"/>
+                                <field name="process_code_casher" readonly="state=='done'"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="message_ids"/>
+                        <field name="activity_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action of HR Employee Process Model -->
+        <record id="action_waaneiza_cashier_cashdrawing" model="ir.actions.act_window">
+            <field name="name">Waaneiza Cashier Cashdrawing</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">waaneiza.cashier.cashdrawing</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p>Create your first Waaneiza Cashier Cashdrwing form!</p>
+            </field>
+        </record>
+        <menuitem id="waaneiza_cashier_root" name="Waaneiza Cashier"/>
+        <menuitem id="waaneiza_cashier_cash_out_root" name="Cashier Cash Out" parent="waaneiza_cashier_root" sequence="20"/>
+        <menuitem id="waaneiza_cashier_cashdrawing" name="Cashier Cashdrawing" parent="waaneiza_cashier_cash_out_root" action="action_waaneiza_cashier_cashdrawing"/> 
+
+    </data>
+</odoo>

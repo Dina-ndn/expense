@@ -1,0 +1,385 @@
+<odoo>
+    <record id="action_financial_position_report" model="ir.actions.act_window">
+        <field name="name">Financial Position Report</field>
+        <field name="res_model">financial.position</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="view_financial_position_report_tree" model="ir.ui.view">
+        <field name="name">financial.position.tree</field>
+        <field name="model">financial.position</field>
+        <field name="arch" type="xml">
+            <tree string="Financial Position Report">
+                <field name="name"/>
+                <field name="company_id"/>
+                <field name="from_date"/>
+                <field name="to_date"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_financial_position_report_form" model="ir.ui.view">
+        <field name="name">financial.position.form</field>
+        <field name="model">financial.position</field>
+        <field name="arch" type="xml">
+            <form string="Financial Position Report">
+                <group>
+                    <field name="income_statement_id" invisible="1"/>
+                    <field name="process_id"/>
+                    <field name="company_id"/>
+                    <field name="from_date"/>
+                    <field name="to_date"/>
+                </group>
+                <div>
+                    <h2 class="text-center">Financial Position</h2>
+                </div>
+                <!-- <t t-foreach="docs" t-as="o"> -->
+                    <!-- <h3 class="text-center" t-field="company_id"></h3> -->
+                    <table class="table table-sm table-bordered">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th class="text-center" style="white-space: text-nowrap;">Kyats</th>
+                                <th class="text-center" style="white-space: text-nowrap;">Kyats</th>
+                                <th class="text-center" style="white-space: text-nowrap;">Att</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>ASSETS</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>TANGIBLE ASSETS</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Non-current Assets</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">Lands</td>
+                                <td class="text-right" style="white-space: text-nowrap;"><field name="land"/></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">Buildings and Building Fixtures</td>
+                                <td class="text-right" style="white-space: text-nowrap;"><field name="building_fixture"/></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">Furnitures and Fixtures</td>
+                                <td class="text-right" style="white-space: text-nowrap;"><field name="furniture_fixture"/></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">Operation Equipments</td>
+                                <td class="text-right" style="white-space: text-nowrap;"><field name="operation_equipment"/></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">Vehicles</td>
+                                <td class="text-right" style="white-space: text-nowrap;"><field name="vehicle"/></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">Tools and Equipments</td>
+                                <td class="text-right" style="white-space: text-nowrap;"><field name="tool_equipment"/></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">Office Equipments</td>
+                                <td class="text-right" style="white-space: text-nowrap;"><field name="office_equipment"/></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">ICT Equipments</td>
+                                <td class="text-right" style="white-space: text-nowrap;"><field name="ict_equipment"/></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">Hybrid Assets</td>
+                                <td class="text-right" style="white-space: text-nowrap;"><field name="non_hybrid_assets"/></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">Licenses</td>
+                                <td class="text-right" style="white-space: text-nowrap;"><field name="license"/></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Total Non-current Assets</td>
+                                <td class="text-right" style="white-space: text-nowrap;font-weight: bold;"><field name="total_non_current_crd"/></td>
+                                <td class="text-right" style="white-space: text-nowrap;font-weight: bold;"><field name="total_non_current_deb"/></td>
+                                <td></td>
+                            </tr>
+                            <!-- Current Assets -->
+                            <tr>
+                                <td>Current Assets</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">Inventory</td>
+                                <td class="text-right" style="white-space: text-nowrap;"><field name="inventory"/></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">Hybrid Assets</td>
+                                <td class="text-right" style="white-space: text-nowrap;"><field name="hybrid_assets"/></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">Trade Receivable</td>
+                                <td class="text-right" style="white-space: text-nowrap;"><field name="trade_receivable"/></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">Deposit Receivable</td>
+                                <td class="text-right" style="white-space: text-nowrap;"><field name="deposit_receivable"/></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">Deffered Expenditure</td>
+                                <td class="text-right" style="white-space: text-nowrap;"><field name="deffered_expenditure"/></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">Prepaid Expense</td>
+                                <td class="text-right" style="white-space: text-nowrap;"><field name="prepaid_expense"/></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">Corporate Receivable</td>
+                                <td class="text-right" style="white-space: text-nowrap;"><field name="corporate_receivable"/></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right" style="color: red;">Advanced Cash</td>
+                                <td class="text-right" style="white-space: text-nowrap;"><field name="advanced_cash"/></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right" style="color: red;">Cash At Bank</td>
+                                <td class="text-right" style="white-space: text-nowrap;"><field name="cash_at_bank"/></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right" style="color: red;">Cash In Hand</td>
+                                <td class="text-right" style="white-space: text-nowrap;"><field name="cash_in_hand"/></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Total Current Assets</td>
+                                <td class="text-right" style="white-space: text-nowrap;font-weight: bold;"><field name="total_current_assets_crd"/></td>
+                                <td class="text-right" style="white-space: text-nowrap;font-weight: bold;"><field name="total_current_assets_deb"/></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>TOTAL TANGIBLE ASSETS</td>
+                                <td></td>
+                                <td class="text-right" style="white-space: text-nowrap;font-weight: bold;"><field name="total_tangible_assets"/></td>
+                                <td></td>
+                            </tr>
+                            <!-- Total Assets -->
+                            <tr>
+                                <td>TOTAL ASSETS</td>
+                                <td></td>
+                                <td class="text-right" style="white-space: text-nowrap;font-weight: bold;"><field name="total_assets"/></td>
+                                <td></td>
+                            </tr>
+                            <!-- # Equities -->
+                            <tr>
+                                <td>EQUITIES AND LIABILITIES</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>EQUITIES</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">Paid up Share Capital</td>
+                                <td class="text-right" style="white-space: text-nowrap;"><field name="paid_up_share_capital"/></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">Call In Arrears</td>
+                                <td class="text-right" style="white-space: text-nowrap;"><field name="call_in_arrear"/></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">Preference Shares</td>
+                                <td class="text-right" style="white-space: text-nowrap;"><field name="preference_share"/></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">Revaluation Reserve</td>
+                                <td class="text-right" style="white-space: text-nowrap;"><field name="revaluation_reserve"/></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">Retained Earning</td>
+                                <td class="text-right" style="white-space: text-nowrap;"><field name="retained_earning"/></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">Net profit/(loss) for the period</td>
+                                <td class="text-right" style="white-space: text-nowrap;"><field name="net_profit"/></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>TOTAL EQUITIES</td>
+                                <td class="text-right" style="white-space: text-nowrap;font-weight: bold;"><field name="total_equities_crd"/></td>
+                                <td class="text-right" style="white-space: text-nowrap;font-weight: bold;"><field name="total_equities_deb"/></td>
+                                <td></td>
+                            </tr>
+                            <!-- LIABILITIES  -->
+                            <tr>
+                                <td>LIABILITIES</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Non-current Liabilities</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">Bank Loans</td>
+                                <td class="text-right" style="white-space: text-nowrap;"><field name="bank_loans"/></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">Departmental Share Deposits</td>
+                                <td class="text-right" style="white-space: text-nowrap;"><field name="departmental_share_deposits"/></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">External Loans</td>
+                                <td class="text-right" style="white-space: text-nowrap;"><field name="external_loans"/></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Total Non-current Liabilite</td>
+                                <td class="text-right" style="white-space: text-nowrap;font-weight: bold;"><field name="total_non_current_liabilites"/></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <!-- Current Liabilities -->
+                            <tr>
+                                <td>Current Liabilities</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">Trade Payable</td>
+                                <td class="text-right" style="white-space: text-nowrap;"><field name="trade_payable"/></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">Deposit Payable</td>
+                                <td class="text-right" style="white-space: text-nowrap;"><field name="deposit_payable"/></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">Corporate Payable</td>
+                                <td class="text-right" style="white-space: text-nowrap;"><field name="corporae_payable"/></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">Tax Payable</td>
+                                <td class="text-right" style="white-space: text-nowrap;"><field name="tax_payable"/></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">Intrest Payable</td>
+                                <td class="text-right" style="white-space: text-nowrap;"><field name="intrest_payable"/></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">Accrued Expense</td>
+                                <td class="text-right" style="white-space: text-nowrap;"><field name="accrued_expenses"/></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Total Current Liabilities</td>
+                                <td class="text-right" style="white-space: text-nowrap;font-weight: bold;"><field name="total_current_liabilities"/></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>TOTAL LIABILITIES</td>
+                                <td></td>
+                                <td class="text-right" style="white-space: text-nowrap;font-weight: bold;"><field name="total_liabilities"/></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>TOTAL EQUITIES AND LIABILITIES</td>
+                                <td></td>
+                                <td class="text-right" style="white-space: text-nowrap;font-weight: bold;"><field name="total_equities_liabilities"/></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td class="text-right" style="white-space: text-nowrap;font-weight: bold;"><field name="total_financial_amount"/></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                <!-- </t> -->
+            </form>
+        </field>
+    </record>
+
+    <menuitem id="financial_position_report_menu" name="Financial Position Report" parent="waaneiza_exp_report_root" action="action_financial_position_report"/>
+</odoo>

@@ -1,0 +1,158 @@
+<odoo>
+    <data>
+
+        <!-- Tree view -->
+        <record id="waaneiza_settlement_tree" model="ir.ui.view">
+            <field name="name">tree.waaneiza.exp.advance.settlement</field>
+            <field name="model">waaneiza.exp.sett</field>
+            <field name="arch" type="xml">
+                <tree string="Waaneiza Expense">
+                    <field name="id" invisible='1'/>
+                    <field name="vr_name"/>
+                    <field name="process_id"/>
+                    <field name="currency" invisible="1"/>
+                    <field name="total_expense_amount" widget="monetary" decoration-bf="1" options="{'currency_field':'currency'}"/>
+                    <field name="total_receipt" widget="monetary" decoration-bf="1" options="{'currency_field':'currency'}"/>
+                    <field name="net_surplus" widget="monetary" decoration-bf="1" options="{'currency_field':'currency'}"/>
+                    <field name="state" optional="show" widget="badge" decoration-success="state == 'done' or state == 'confirm'"
+                        decoration-warning="state == 'cancel'" decoration-info="state == 'draft'"/>
+                    <field name="company_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form view of Settment Model -->
+       <record id="waaneiza_settlement_form_view" model="ir.ui.view">
+            <field name="name">waaneiza.exp.sett.form.view</field>
+            <field name="model">waaneiza.exp.sett</field>
+            <field name="arch" type="xml">
+                <form string="Waaneiza Expense">
+                    <header>
+                        <field name="state" widget="statusbar" options="{'clickable':'1'}" statusbar_visible="draft,done,confirm"/>
+                        <field name="is_visible" invisible="1"/>
+                        <!-- Return Button -->
+                        <button name="action_exp_return" type="object" class="oe_highlight" string="Cash Return" context="{'default_sett_id': id}" invisible="is_visible!=True" readonly="True" groups="waaneiza_expense_cashier.group_cashier_user"/>
+                        <!-- Deficit Button -->
+                        <field name="is_deficit" invisible="1"/>
+                        <button name="action_exp_deficit" type="object" class="oe_highlight" string="Cash Deficit" context="{'default_expense_settlement_id': active_id}" invisible ="is_deficit!=True" groups="waaneiza_expense_cashier.group_cashier_user" readonly="True"/>
+
+                       <button name="action_confirm" id="button_confirm" string="Confirm" class="btn-primary" invisible ="state not in ['draft']" type="object"/>
+                        <button name="action_done" id="button_done" string="Mark As Done" class="btn-primary" invisible ="state not in ['confirm']" type="object"/>
+                        <button name="action_draft" id="button_draft" string="Draft" class="btn-primary" invisible ="state not in ['cancel']" type="object"/>
+                        <button name="action_cancel" id="button_cancel" string="Cancel" invisible ="state not in ['draft','confirm']" type="object"/>  
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button type="object"  name="action_view_return" context="{'default_sett_id': id}"
+                                class="oe_stat_button"
+                                icon="fa-pencil-square-o" invisible ="state not in ['done']">
+                                <field name="return_count" widget="statinfo" string="Cash Return"/>
+                            </button>
+                        </div>
+                        <group>
+                            <group>
+                            <field name="employee" invisible="1"/>
+                            <field name="vr_name"/>
+                            <field name="cash_drawing_srn" options="{'open': False,'create_edit': False}"/>
+                            <field name="cash_out_code_test" readonly ="state=='done'" invisible="1"/>
+                            <field name="cash_drawing_id" invisible="1"/>
+                            <field name="cash_out_code" readonly ="state=='done'"/>
+                            <field name="process_id" domain="[('id','=', requested_by_process)]" readonly ="state=='done'" options="{'no_create_edit': True}"/>
+                            <field name="employee_id" invisible="1" readonly ="state=='done'" options="{'open': False,'create_edit': False}"/>
+                            <field name="department_id" readonly ="state=='done'" options="{'no_open': True,'no_create_edit': True}"/>
+                            <field name="requisition_id" readonly ="state=='done'" options="{'no_open': True,'no_create_edit': True}"/>
+                        </group>   
+                        <group>
+                            <field name="sett_date" readonly ="state=='done'" required="1"/>
+                            <field name="company_id" readonly ="state=='done'"/>
+                            <field name="amount" readonly ="state=='done'" required="1"/> 
+                        </group>
+                        </group>
+                        <separator string="Expense Information"/>
+                        <field name="expense_info_lines" readonly ="state=='done'" required="1">
+                            <tree editable="bottom">
+                                <field name="expense_code"/>
+                                <field name="line_date" column_invisible="True"/>
+                                <field name="currency" column_invisible="True"/>
+                                <field name="account_code" column_invisible="True"/>
+                                <field name="account_code_sub"/>
+                                <field name="code_description_sub"/>
+                                <field name="vendor_name" required="1"/>
+                                <field name="description"/>
+                                <field name="process_id" column_invisible="True"/>
+                                <field name="expense_id" column_invisible="True"/>
+                                <field name="company_id" column_invisible="True"/>
+                                <field name="test_name" class="oe_edit_only"/> 
+                                <field name="voucher_code" class="oe_edit_only" widget="integer" placeholder='Please fill code'/>
+                                <field name="voucher_number_string2" class="oe_read_only"/>
+                                <field name="norm_id" options="{'no_open': True,'no_create_edit': True}" create="false" invisible="1"/>
+                                <field name="job_id" invisible="1"/>
+                                <field name="norm_job_amount" column_invisible="True"/>
+                                <field name="norm_amount" column_invisible="True"/>
+                                <field name="amount" required="1"/>
+                            </tree>
+                         </field>
+                        <group class="oe_subtotal_footer oe_right">
+                            <field name="total_expense_amount"/>
+                            <field name="before_return" column_invisible="True"/>
+                            <field name="total_receipt"/>
+                            <field name="net_surplus"/>
+                        </group>
+                        <group>
+                            <group>
+                                <group>
+                                    <label for="requested_by_process" string="Requested by:"/>
+                                </group>
+                                <group>
+                                   <field name="requested_by_process" readonly ="state=='done'"/>
+                                    <field name="requested_by_name"/>
+                                    <field name="requested_job_id"/>
+                                </group>
+                            </group>
+                            <group>
+                                <group>
+                                    <label for="checked_by_process" string="Checked By:"/>
+                                </group>
+                                <group>
+                                     <field name="checked_by_process" readonly ="state=='done'"/>
+                                    <field name="checked_by_name"/>
+                                    <field name="checked_job_id"/>
+                                </group>
+                            </group>
+                        </group>
+                        <group>  
+                            <group>
+                                <group>
+                                    <label for="approved_by_process" string="Approved by:"/>
+                                </group>
+                                <group>
+                                    <field name="approved_by_process" readonly ="state=='done'"/>
+                                    <field name="approved_by_name"/>
+                                    <field name="approved_job_id"/>
+                                </group>
+                            </group> 
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="message_ids"/>
+                        <field name="activity_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <!-- Action -->
+        <record id="action_waaneiza_settlement" model="ir.actions.act_window">
+            <field name="name">Waaneiza Expenses Advance Settlement</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">waaneiza.exp.sett</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p>Create your first Waaneiza Expense Settlement form!</p>
+            </field>
+        </record>
+
+        <menuitem id="waaneiza_exp_settlement" name="Expense Advance Settlement" parent="waaneiza_exp_cash_out_root" action="action_waaneiza_settlement" sequence="20"/> 
+
+    </data>
+</odoo>

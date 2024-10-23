@@ -1,0 +1,46 @@
+<odoo>
+    <data>
+        <!-- Tree view-->
+        <record id="waaneiza_exp_account_code_tree" model="ir.ui.view">
+            <field name="name">tree.waaneiza.exp.account.code</field>
+            <field name="model">waaneiza.exp.acc.code</field>
+            <field name="arch" type="xml">
+                <tree string="Waaneiza Expense Heading" editable="bottom">
+                    <field name="name" required="1"/>
+                    <field name="description" required="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form view -->
+        <!-- <record id="waaneiza_exp_account_code_form_view" model="ir.ui.view">
+            <field name="name">waaneiza.exp.account.code.form.view</field>
+            <field name="model">waaneiza.exp.acc.code</field>
+            <field name="arch" type="xml">
+                <form string="Waaneiza Expense Heading" create="false">
+                    <sheet>
+                        <group col="8">
+                            <field name="name"/>
+                            <field name="description"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+ -->
+        <!-- Action-->
+        <record id="action_waaneiza_exp_account_code" model="ir.actions.act_window">
+            <field name="name">Waaneiza Account Code</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">waaneiza.exp.acc.code</field>
+            <field name="view_mode">tree</field>
+            <field name="help" type="html">
+                <p>Create your first Waaneiza Account Code!</p>
+            </field>
+        </record>
+        
+        <menuitem id="waaneiza_exp_advanced_settlement_root" name="Waaneiza Expense"/>
+        <menuitem id="waaneiza_exp_acc_code_root" name="Expense Account Code" parent="waaneiza_exp_advanced_settlement_root" sequence="10"/>
+        <menuitem id="waaneiza_exp_account_code" name="Expense Account Main Heading" parent="waaneiza_exp_acc_code_root" action="action_waaneiza_exp_account_code"/> 
+    </data>
+</odoo>

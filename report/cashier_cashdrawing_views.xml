@@ -1,0 +1,32 @@
+<odoo>
+    <record id="action_cashier_cashdrawing_view" model="ir.actions.act_window">
+        <field name="name">Cashier Cashdrawing Notification</field>
+        <field name="res_model">cashier.cashdrawing</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+     <record id="waaneiza_cashier_cashdrawing_tree" model="ir.ui.view">
+        <field name="name">cashier.cashdrawing.tree</field>
+        <field name="model">cashier.cashdrawing</field>
+        <field name="arch" type="xml">
+            <tree string="Waaneiza Cashier Cashdrawing Report" create="false">
+                <field name="vr_no"/>
+                <field name="cash_out_code"/>
+                <field name="datetime"/>
+                <field name="process_id" optional="show"/>
+                <field name="reason" optional="show"/>
+                <field name="amount" widget="monetary"/>
+                <field name="currency"/>
+                <field name="company_id" optional="show"/>
+                <field name="state" optional="show" widget="badge" decoration-success="state == 'done' or state == 'confirm'"
+                        decoration-warning="state == 'cancel' or state == 'refuse'" decoration-info="state == 'draft' or state == 'tosubmit'"/>
+                <button name="action_view_cashier_cashdrawing" string="View Detail" type="object" class="btn-primary"/>
+            </tree>
+        </field>
+    </record>
+
+    <menuitem id="waaneiza_drawing_agree_menu" name="Agree" parent="waaneiza_advance_report_root" sequence="20"/>
+
+    <menuitem id="waaneiza_cashier_cashdrawing_report_menu" name="Cash Drawing (Agree)" parent="waaneiza_drawing_agree_menu" action="action_cashier_cashdrawing_view"/> 
+</odoo>
+    

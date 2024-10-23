@@ -1,0 +1,60 @@
+<odoo>
+    <record id="action_expense_advance_report" model="ir.actions.act_window">
+        <field name="name">Waaneiza Expense Advance Settlement</field>
+        <field name="res_model">expense.advance.report.sett</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+    <!-- <record id="expense_advance_report_process_pivot_view" model="ir.ui.view">
+        <field name="name">expense.advance.report.sett.pivot</field>
+        <field name="model">expense.advance.report.sett</field>
+        <field name="arch" type="xml">
+            <pivot string="Expense Report" display_quantity="1" sample="1">
+                <field name="draw_date" type="row"/>
+                <field name="sett_date" type="row"/>
+                <field name="drawing_amount" type="measure"/>
+                <field name="sett_amount" type="measure"/>
+                <field name="return_amount" type="measure"/>
+            </pivot>
+        </field>
+    </record> -->
+     <record id="expense_advance_report_process_view_tree" model="ir.ui.view">
+            <field name="name">expense.advance.report.sett.tree</field>
+            <field name="model">expense.advance.report.sett</field>
+            <field name="arch" type="xml">
+                <tree string="Expense Analysis" create="false">
+                    <field name="draw_date" widget="date" optional="show"/>
+                    <field name="sett_date" optional="show"/>
+                    <field name="employee_id" optional="show"/>
+                    <field name="description" optional="show"/>
+                    <field name="name" optional="show"/>
+                    <field name="cash_out_code"/>
+                    <field name="drawing_amount" optional="show" widget="monetary" decoration-bf="1" options="{'currency_field':'currency'}" sum="Sum of Drawing Amount"/>
+                    <field name="sett_amount" optional="show" widget="monetary" decoration-bf="1" options="{'currency_field':'currency'}" sum="Sum of Settlement Amount"/>
+                    <field name="return_amount" optional="show" widget="monetary" decoration-bf="1" options="{'currency_field':'currency'}" sum="Sum of Return Amount"/>
+                    <field name="net_amount" optional="show" widget="monetary" decoration-bf="1" options="{'currency_field':'currency'}" sum="Sum of Net Amount"/>
+                    <field name="currency" optional="show"/>
+                    <button name="action_get_attachment_view" string="Attachments" type="object" icon="fa-paperclip" invisible="1"/>
+                    <button name="action_view_invoice" string="View Detail" type="object" class="btn-primary"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_advance_expense_search" model="ir.ui.view">
+        <field name="name">expense.advance.report.sett.search</field>
+        <field name="model">expense.advance.report.sett</field>
+        <field name="arch" type="xml">
+            <search string="Waaneiza Expense">
+                <filter string="Process Name" name="Process">
+                <field name="employee_id"/>
+                </filter> 
+            </search>
+        </field>
+    </record>
+
+    <menuitem id="waaneiza_exp_report_root" name="Expense Report" parent="waaneiza_exp_advanced_settlement_root" sequence="50"/>
+    <menuitem id="expense_report_menu" name="Expense Settlement Report" parent="waaneiza_exp_report_root"  action="action_expense_advance_report"/>
+    
+    <!--For cashier  Report-->
+    <!-- <menuitem id="expense_report_menu_cashier" name="Expense Settlement Report" parent="waaneiza_cashier_report_root"  action="action_expense_advance_report"/> -->
+</odoo>

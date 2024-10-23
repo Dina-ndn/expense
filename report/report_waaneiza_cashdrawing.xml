@@ -1,0 +1,126 @@
+<odoo>
+     <template id="report_waaneiza_cashdrawing">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <br/>
+                        <br/>
+                        <div style="padding-top:50px;">
+                            <center>
+                            <h2> Waaneiza Cashdrawing</h2>
+                            </center>
+                        </div>
+                        <br/>
+                        <br/>
+                         <table class="table table-sm table-bordered">
+                            <tr>
+                                <td>
+                                    <strong>Process Name</strong>
+                                </td>
+                                <td>
+                                    <span t-field="o.process_id"/>
+                                </td>
+                                <td>
+                                    <strong>SR No.</strong>
+                                </td>
+                                <td>
+                                    <span t-field="o.name"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Process Code</strong>
+                                </td>
+                                <td>
+                                    <div t-field="o.process_code_employee"/>
+                                </td>
+                                 <td>
+                                    <strong>Date</strong>
+                                </td>
+                                <td>
+                                    <span t-field="o.datetime"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Department</strong>
+                                </td>
+                                <td>
+                                    <span t-field="o.department_id"/>
+                                </td>
+                                 <td>
+                                    <strong>Type of Cashdrawing</strong>
+                                </td>
+                                <td>
+                                    <span t-field="o.type_of_cashdrawing_select"/>
+                                </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                    <strong>Reason for cashdrawing</strong>
+                                </td>
+                                <td>
+                                    <span t-field="o.reason_for_cashdrawing"/>
+                                </td>
+                                <td>
+                                    <strong>Cash Out Code</strong>
+                                </td>
+                                <td>
+                                    <span t-field="o.cash_out_code"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Cashdrawing Amount</strong>
+                                </td>
+                                <td>
+                                    <span t-field="o.amount"/>
+                                </td>
+                                 <td>
+                                    <strong>Currency</strong>
+                                </td>
+                                 <td>
+                                    <span t-field="o.currency"/>
+                                </td>
+                            </tr>
+                        </table>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                         <div  style="float:left; height:470px;width:50%;padding: 0 10px;">
+                            Paid By:-------------------------------<br/><br/>
+                            Name:
+                                <span t-field="o.paid_by_name"></span><br/>
+                            Staff ID:
+                                 <span t-field="o.paid_by_staff_id"></span><br/>
+                            Process Code:
+                                 <span t-field="o.process_code_casher"></span>
+                        </div>
+                        <div style="float:left; height:470px;width:35%;padding: 0 10px;margin-left:20px;">
+                            Received By:-----------------------<br/><br/>
+                            Name:
+                                <span t-field="o.received_by_name"></span><br/>
+                            Staff ID:
+                                 <span t-field="o.received_by_staff_id"></span><br/>
+                            Process Code:
+                                 <span t-field="o.process_id"></span>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_waaneiza_cashdrawing" model="ir.actions.report">
+        <field name="name">Print Cashdrawing</field>
+        <field name="model">waaneiza.cashier.cashdrawing</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">waaneiza_expense_cashier.report_waaneiza_cashdrawing</field>
+        <field name="report_file">waaneiza_expense_cashier.report_waaneiza_cashdrawing</field>
+        <field name="print_report_name">'Expenses - %s - %s' % (object.process_id, (object.name).replace('/', ''))</field>
+        <field name="binding_model_id" ref="model_waaneiza_cashier_cashdrawing"/>
+        <field name="binding_type">report</field>
+    </record> 
+</odoo>

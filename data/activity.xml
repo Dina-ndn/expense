@@ -1,0 +1,12 @@
+<odoo>
+    <data>
+        <record id="mail_act_requisition_approval" model="mail.activity.type">
+            <field name="name">Cash Requisition Approval</field>
+            <field name="res_model">waaneiza.cashier.cash.req</field>
+        </record>
+        <record id="mail_act_requisition_check" model="mail.activity.type">
+            <field name="name">Cash Requisition check</field>
+            <field name="res_model">waaneiza.cashier.cash.req</field>
+        </record>
+    </data>
+</odoo>

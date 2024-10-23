@@ -1,0 +1,193 @@
+<odoo>
+     <template id="report_waaneiza_sett">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                    <div style="padding-top:50px;">
+                        <center>
+                            <h2>Expense Advance Settlement Statement</h2>
+                        </center>
+                    </div>
+                    <br/><br/>
+                      <div style="width: 100%;">
+                            <group>
+                            <div style="width: 50%;float: left;">
+                                <strong><span style="font-size:13pt; width:400px;">Process Name   :</span></strong>
+                                  <span style="margin-left:75px;" t-field="o.process_id"/>
+                                  <br/>
+                                <strong><span style="font-size:13pt;">Department   :</span></strong>
+                                <span style="margin-left:90px;" t-field="o.department_id"/>
+                                <br/>
+                               <strong><span style="font-size:13pt;">Cash Drawing Vr No   :</span></strong>
+                                <span style="margin-left:30px;" t-field="o.cash_drawing_srn"/>
+                                <br/>
+                                <strong><span style="font-size:13pt;">Cash Out Code  :</span></strong>
+                                <span style="margin-left:70px;" t-field="o.cash_out_code"/>
+                            </div>
+                             <div style="margin-left:75%;text-align:left;"> 
+                                <strong><span style="font-size:13pt;">Date  :</span></strong>
+                                <span style="margin-left:70px;" t-field="o.date_to_string2"/>
+                                <br/>
+                                <strong><span style="font-size:13pt;">Company   :</span></strong>
+                                <span style="margin-left:40px;" t-field="o.company_id"/>
+                                <br/>
+                                <strong><span style="font-size:13pt;">Amount   :</span></strong>
+                                <span style="margin-left:50px;" t-field="o.amount"/>
+                            </div>
+                        </group>
+                        </div>
+                    </div>
+                    <br/>
+                    <br/>
+                    <br/>
+                     <table class="table table-sm table-bordered">
+                            <thead>
+                                <!-- <tr t-attf-style="background-color:grey"> -->
+                                <tr>
+                                    <th>Expense Code</th>
+                                    <th>Account Code</th>
+                                    <th> Vendor Name</th>
+                                    <th>Description</th>
+                                    <th class="text-center">Vocher Code</th>
+                                    <th class="text-right">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="o.expense_info_lines" t-as="line">
+                                   <td>
+                                        <span t-field="line.expense_code"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="line.account_code"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="line.vendor_name"/>
+                                    </td>
+                                   <td>
+                                        <span t-field="line.description"/>
+                                    </td>
+                                    <td class="text-center">
+                                        <span t-field="line.voucher_number_string2">
+                                        </span>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-field="line.amount">
+                                        </span>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td style="height:20px;"></td>
+                                    <td>
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="5" class="text-center">Total Expense Amount</td>
+                                    <td class="text-right">
+                                        <span t-field="o.total_expense_amount"></span>
+                                    </td>
+                                </tr>
+                                    <tr>
+                                     <td colspan="5" class="text-center">Total Receipt</td>
+                                    <td class="text-right">
+                                        <span t-field="o.total_receipt"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td  colspan="5" class="text-center"><span>Net Surplus</span></td>
+                                    <td class="text-right">
+                                        <span t-field="o.net_surplus"></span>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                    <!--  <table class="table table-sm" style="border: 0px solid #CCC;border-collapse: collapse;">
+                         <tbody>
+                                <tr style="border:none;">
+                                    <td style="border:none;"></td>
+                                    <td style="border:none;"></td>
+                                    <td style="border:none;"></td>
+                                    <td style="border:none;"></td>
+                                     <td style="border:none;"></td>
+                                    <td style="border:none;"></td>
+                                    <td style="border:none;" class="text-right">Total Expense Amount :</td>
+                                    <td style="border:none;" class="text-right">
+                                        <span t-field="o.total_expense_amount"></span>
+                                    </td>
+                                </tr>
+                                <tr style="border:none;">
+                                    <td style="border:none;"></td>
+                                    <td style="border:none;"></td>
+                                    <td style="border:none;"></td>
+                                    <td style="border:none;"></td>
+                                     <td style="border:none;"></td>
+                                    <td style="border:none;"></td>
+                                    <td style="border:none;" class="text-right">Total Receipt :</td>
+                                    <td style="border:none;" class="text-right">
+                                        <span t-field="o.total_receipt"></span>
+                                    </td>
+                                </tr>
+                                <tr style="border:none;">
+                                    <td style="border:none;"></td>
+                                    <td style="border:none;"></td>
+                                    <td style="border:none;"></td>
+                                    <td style="border:none;"></td>
+                                    <td style="border:none;"></td>
+                                    <td style="border:none;"></td>
+                                    <td style="border:none;" class="text-right"><span>Net Surplus :</span></td>
+                                    <td style="border:none;" class="text-right">
+                                        <span t-field="o.net_surplus"></span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table> -->
+                        <br/>
+                        <br/>
+                        <div  style="float:left; height:470px;width:35%;padding: 0 10px;">
+                            Prepared By: -------------------------<br/><br/>
+                            Name:
+                                <span t-field="o.requested_by_name"></span><br/>
+                                Rank:
+                                 <span t-field="o.requested_job_id"></span>
+                        </div>
+                        <div style="float:left; height:470px;width:35%;padding: 0 10px;">
+                            Checked By: ------------------------<br/><br/>
+                            Name:
+                                <span t-field="o.checked_by_name"></span><br/>
+                                Rank:
+                                 <span t-field="o.checked_job_id"></span>
+                        </div>
+                        <div style="float:left; height:470px;width:30%;padding: 0 10px;">
+                            Approved By: --------------------<br/><br/>
+                            Name:
+                                <span t-field="o.approved_by_name"></span><br/>
+                                Rank:
+                                 <span t-field="o.approved_job_id"></span>
+                        </div>
+
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_waaneiza_sett" model="ir.actions.report">
+        <field name="name">Advance Settlement</field>
+        <field name="model">waaneiza.exp.sett</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">waaneiza_expense_cashier.report_waaneiza_sett</field>
+        <field name="report_file">waaneiza_expense_cashier.report_waaneiza_sett</field>
+        <field name="print_report_name">'Expenses - %s - %s' % (object.process_id, (object.vr_name).replace('/', ''))</field>
+        <field name="binding_model_id" ref="model_waaneiza_exp_sett"/>
+        <field name="binding_type">report</field>
+    </record> 
+</odoo>

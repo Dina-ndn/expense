@@ -1,0 +1,26 @@
+<odoo>
+    <record id="action_resource_expense_sett" model="ir.actions.act_window">
+        <field name="name">Resource Advance Settlement Statement</field>
+        <field name="res_model">expense.resource.sett</field>
+        <field name="view_mode">tree</field>
+    </record>
+     <record id="rexpense_resource_sett_process_view_tree" model="ir.ui.view">
+            <field name="name">expense.resource.sett.view.tree</field>
+            <field name="model">expense.resource.sett</field>
+            <field name="arch" type="xml">
+                <tree string="Expense Analysis" create="false">
+                    <field name="resource_date" widget="date"/>
+                    <field name="vr_name" optional="show"/>
+                    <field name="uti_name" optional="show"/>
+                    <field name="process_id" optional="show"/>
+                    <field name="department_name"/>
+                    <field name="amount" optional="show" widget="monetary" decoration-bf="1" options="{'currency_field':'currency'}" sum="Sum of Amount"/>
+                    <field name="currency" optional="show"/>
+                    <field name="company_id" optional="show"/>
+                    <button name="action_view_invoice" string="View Detail" type="object" class="btn-primary"/>
+                </tree>
+            </field>
+        </record>
+
+    <menuitem id="resource_expense_sett_menu" name="Resource Expense Settlement" parent="waaneiza_exp_report_root"  action="action_resource_expense_sett"/>
+</odoo>

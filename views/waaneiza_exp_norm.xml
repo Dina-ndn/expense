@@ -1,0 +1,57 @@
+<odoo>
+    <data>
+        <!-- Tree view of Waaneiza Expense Norm Model -->
+        <record id="waaneiza_exp_norm_tree" model="ir.ui.view">
+            <field name="name">tree.waaneiza.exp.norm</field>
+            <field name="model">waaneiza.expense.norm</field>
+            <field name="arch" type="xml">
+                <tree string="Waaneiza Expense Norm" editable="bottom">
+                    <field name="name"/>
+                    <field name="account_code" required="1"/>
+                    <field name="norm_category" required="1"/>
+                    <field name="amount" required="1"/>
+                </tree>
+            </field>
+        </record>
+    
+        <!-- Form view of Waaneiza Expense Norm Model -->
+       <!--  <record id="waaneiza_exp_norm_form_view" model="ir.ui.view">
+            <field name="name">waaneiza.exp.norm.form.view</field>
+            <field name="model">waaneiza.expense.norm</field>
+            <field name="arch" type="xml">
+                <form string="Waaneiza Expense Norm" create="false">
+                    <sheet>
+                        <group>
+                            <field name="account_code"/>
+                            <field name="norm_category"/>
+                        </group>
+                        <group>
+                            <field name="name"/>
+                            <field name="amount"/>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="message_ids"/>
+                        <field name="activity_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+ -->
+        <!-- Action of Waaneiza Expense Norm Model -->
+        <record id="action_waaneiza_exp_norm" model="ir.actions.act_window">
+            <field name="name">Waaneiza Expense Norm</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">waaneiza.expense.norm</field>
+            <field name="view_mode">tree</field>
+            <field name="help" type="html">
+                <p>Create your Waaneiza Expense Norm!</p>
+            </field>
+        </record>
+
+        <!-- <menuitem id="waaneiza_exp_norm_root" name="Expense Norm" parent="waaneiza_exp_advanced_settlement_root" sequence="40"/> -->
+        <menuitem id="waaneiza_exp_norm" name="Expense Norm" parent="waaneiza_exp_acc_code_root" action="action_waaneiza_exp_norm"/> 
+
+    </data>
+</odoo>

@@ -1,0 +1,345 @@
+<odoo>
+    <record id="action_income_report" model="ir.actions.act_window">
+        <field name="name">Income Statement Report</field>
+        <field name="res_model">income.statement</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="view_income_report_tree" model="ir.ui.view">
+            <field name="name">income.statement.tree</field>
+            <field name="model">income.statement</field>
+            <field name="arch" type="xml">
+                <tree string="Income Statement Report">
+                    <field name="name"/>
+                    <field name="process_id"/>
+                    <field name="company_id"/>
+                    <field name="from_date"/>
+                    <field name="to_date"/>
+                </tree>
+            </field>
+        </record>
+
+    <record id="view_income_report_form" model="ir.ui.view">
+        <field name="name">income.report.form</field>
+        <field name="model">income.statement</field>
+        <field name="arch" type="xml">
+            <form string="Income Statement Report">
+                <header>
+                    <button name="action_financial_position" type="object" class="oe_highlight" string="Financial Position"  context="{'default_income_statement_id': id}" invisible="state not in ('done')"/>
+
+                    <button name="action_confirm" id="button_confirm" string="Confirm" class="oe_highlight" invisible="state not in ('draft')" type="object"/>
+
+                    <button name="action_done" id="button_done" string="Mark As Done" class="oe_highlight" invisible="state not in ('confirm')" type="object"/>
+
+                    <button name="action_draft" id="button_draft" string="Draft" class="oe_highlight" invisible="state not in ('draft')" type="object"/>
+
+                    <field name="state" widget="statusbar" options="{'clickable':'1'}" statusbar_visible="draft,confirm,done"/>
+                </header>
+                <group>
+                    <field name="current_user" invisible="1"/>
+                    <field name="process_id"/>
+                    <field name="process_id_id" invisible="1"/>
+                    <field name="child_id"/>
+                    <field name="company_id"/>
+                    <field name="from_date"/>
+                    <field name="to_date"/>
+                    <field name="child_expense_amount" invisible="1"/>
+                    <field name="owner_expense_amount" invisible="1"/>
+                </group>
+                <div>
+                    <h2 class="text-center">Income Statement</h2>
+                </div>
+                <t t-foreach="docs" t-as="o">
+                    <h3 class="text-center" t-field="company_id"></h3>
+                    <table class="table table-sm table-bordered">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Description</th>
+                                <th class="text-right">Kyats</th>
+                                <th class="text-right">Kyats</th>
+                                <th class="text-right">%</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td></td>
+                                <td>Revenue</td>
+                                <td></td>
+                                <td><field name="revenue"/></td>
+                                <td class="text-right" style="white-space: text-nowrap;">100%</td>
+                            </tr>
+                            <tr>
+                                <td>(-)</td>
+                                <td>Expense</td>
+                                <td><field name="expense_amount"/></td>
+                                <td></td>
+                                <td class="text-right" style="white-space: text-nowrap;"><field name="pro_purchase_percentage"/>%</td>
+                            </tr>
+                            <tr>
+                                <td>(-)</td>
+                                <td>Product Purchase</td>
+                                <td><field name="total_products_purchase"/></td>
+                                <td></td>
+                                <td class="text-right" style="white-space: text-nowrap;"><field name="pro_purchase_percentage"/>%</td>
+                            </tr>
+                            <tr>
+                                <td>(-)</td>
+                                <td>Purchasing</td>
+                                <td><field name="total_expense"/></td>
+                                <td></td>
+                                <td class="text-right" style="white-space: text-nowrap;">%</td>
+                            </tr>
+                            <tr>
+                                <td>(-)</td>
+                                <td>In-Bound Transportation</td>
+                                <td><field name="total_inbound"/></td>
+                                <td></td>
+                                <td class="text-right" style="white-space: text-nowrap;"><field name="inbound_percentage"/>%</td>
+                            </tr> <tr>
+                                <td>(-)</td>
+                                <td>Raw Products Warehousing</td>
+                                <td><field name="total_raw_products"/></td>
+                                <td></td>
+                                <td class="text-right" style="white-space: text-nowrap;"><field name="raw_products_percentage"/>%</td>
+                            </tr>
+                            <tr>
+                                <td>(-)</td>
+                                <td>Production/Repacking/Service Provision</td>
+                                <td></td>
+                                <td></td>
+                                <td class="text-right" style="white-space: text-nowrap;">%</td>
+                            </tr>
+                            <tr>
+                                <td>(-)</td>
+                                <td>Special Good Taxes</td>
+                                <td></td>
+                                <td></td>
+                                <td class="text-right" style="white-space: text-nowrap;">%</td>
+                            </tr>
+                            <tr>
+                                <td>(-)</td>
+                                <td>Finished Product Warehousing</td>
+                                <td></td>
+                                <td></td>
+                                <td class="text-right" style="white-space: text-nowrap;">%</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td class="text-center">
+                                        <strong>Cost of Sales (Cost of Product Sold)
+                                        </strong>
+                                </td>
+                                <td><field name="cost_sale"/></td>
+                                <td><strong><field name="cost_sale"/></strong></td>
+                                <td class="text-right" style="white-space: text-nowrap;"><field name="cost_sale_percentage"/>%</td>
+
+                            </tr>
+                            <tr>
+                                <td>(+)</td>
+                                <td>Other Income</td>
+                                <td><field name="other_income"/></td>
+                                <td></td>
+                                <td class="text-right" style="white-space: text-nowrap;">%</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td class="text-center">
+                                    <strong>Gross Profit
+                                        </strong>
+                                </td>
+                                <td></td>
+                                <td><strong><field name="gross_profit"/></strong></td>
+                                <td class="text-right" style="white-space: text-nowrap;"><field name="gross_profit_percentage"/>%</td>
+
+
+                            </tr>
+                            <tr style="height:6px;">
+                                <td>
+                                    <br/>
+                                </td>
+                                <td>
+                                    <br/>
+                                </td>
+                                <td>
+                                    <br/>
+                                </td>
+                                <td>
+                                    <br/>
+                                </td>
+                                <td>
+                                    <br/>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td>(-)</td>
+                                <td>Out-Bound Transportation</td>
+                                <td></td>
+                                <td></td>
+                                <td class="text-right" style="white-space: text-nowrap;">%</td>
+                            </tr>
+                            <tr>
+                                <td>(-)</td>
+                                <td>Distribution</td>
+                                <td><field name="distribution"/></td>
+                                <td></td>
+                                <td class="text-right" style="white-space: text-nowrap;"><field name="dis_percentage"/>%</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td class="text-center">
+                                    <strong>Cost of Distribution
+                                        </strong>
+                                </td>
+                                <td><field name="cost_distribution"/></td>
+                                <td><strong><field name="cost_distribution"/></strong></td>
+                                <td class="text-right" style="white-space: text-nowrap;"><field name="cost_distribution_percentage"/>%</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td class="text-center">
+                                    <strong>Gross Profit on Distribution
+                                        </strong>
+                                </td>
+                                <td></td>
+                                <td><strong><field name="gross_distribution"/></strong></td>
+                                <td class="text-right" style="white-space: text-nowrap;"><field name="gross_distribution_percentage"/>%</td>
+                            </tr>
+                            <tr>
+                                <td>(-)</td>
+                                <td>Selling</td>
+                                <td><field name="selling"/></td>
+                                <td></td>
+                                <td class="text-right" style="white-space: text-nowrap;"><field name="selling_percentage"/>%</td>
+                            </tr>
+                            <tr>
+                                <td>(-)</td>
+                                <td>Marketing</td>
+                                <td><field name="selling"/></td>
+                                <td></td>
+                                <td class="text-right" style="white-space: text-nowrap;"><field name="selling_percentage"/>%</td>
+                            </tr>
+                            <tr>
+                                <td>(-)</td>
+                                <td>Customer Servicing</td>
+                                <td></td>
+                                <td></td>
+                                <td class="text-right" style="white-space: text-nowrap;">%</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td class="text-center">
+                                    <strong>Cost of Selling
+                                        </strong>
+                                </td>
+                                <td><field name="cost_selling"/></td>
+                                <td><strong><field name="cost_selling"/></strong></td>
+                                <td class="text-right" style="white-space: text-nowrap;">
+                                    <field name="cost_selling_percentage"/>%</td>
+
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td class="text-center">
+                                    <strong>Gross Profit on Selling
+                                        </strong>
+                                </td>
+                                <td></td>
+                                <td><strong><field name="gross_selling"/></strong></td>
+                                <td class="text-right" style="white-space: text-nowrap;"><field name="gross_selling_percentage"/>%</td>
+                            </tr>
+                            <tr>
+                                <td>(-)</td>
+                                <td>SIC</td>
+                                <td><field name="total_dd_promotion"/></td>
+                                <td></td>
+                                <td class="text-right" style="white-space: text-nowrap;"><field name="dd_promotion_percentage"/>%</td>
+                            </tr>
+                            <tr>
+                                <td>(-)</td>
+                                <td>Depreciation</td>
+                                <td><field name="depreciation"/></td>
+                                <td></td>
+                                <td class="text-right" style="white-space: text-nowrap;">%</td>
+                            </tr>
+                            <tr>
+                                <td>(-)</td>
+                                <td>Administration</td>
+                                <td><field name="total_admin"/></td>
+                                <td></td>
+                                <td class="text-right" style="white-space: text-nowrap;"><field name="admin_percentage"/>%</td>
+                            </tr>
+                            <tr>
+                                <td>(-)</td>
+                                <td>Corporate Expense</td>
+                                <td></td>
+                                <td></td>
+                                <td class="text-right" style="white-space: text-nowrap;">%</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td class="text-center">
+                                    <strong>A and G Expense
+                                    </strong>
+                                </td>
+                                <td><field name="ag_expense"/></td>
+                                <td><field name="ag_expense"/></td>
+                                <td class="text-right" style="white-space: text-nowrap;"><field name="ag_expense_percentage"/>%</td>
+
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td class="text-center">
+                                    <strong>EBIT(Earning Before Interests and Taxation)
+                                    </strong>
+                                </td>
+                                <td></td>
+                                <td><strong><field name="ebit"/></strong></td>
+                                <td class="text-right" style="white-space: text-nowrap;"><field name="ebit_percentage"/>%</td>
+                            </tr>
+                            <tr>
+                                <td>(-)</td>
+                                <td>Interests</td>
+                                <td><field name="interest"/></td>
+                                <td><field name="interest"/></td>
+                                <td class="text-right" style="white-space: text-nowrap;"><field name="interest_percentage"/>%</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td class="text-center">
+                                    <strong>EBT(Earning Before Taxation)
+                                        </strong>
+                                </td>
+                                <td></td>
+                                <td><strong><field name="ebt"/></strong></td>
+                                <td class="text-right" style="white-space: text-nowrap;"><field name="ebt_percentage"/>%</td>
+
+                            </tr>
+                            <tr>
+                                <td>(-)</td>
+                                <td>Taxation</td>
+                                <td><field name="taxation"/></td>
+                                <td><field name="taxation"/></td>
+                                <td class="text-right" style="white-space: text-nowrap;"><field name="taxation_percentage"/>%</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td class="text-center">
+                                    <strong>Net Profit
+                                        </strong>
+                                </td>
+                                <td></td>
+                                <td><strong><field name="net_profit"/></strong></td>
+                                <td class="text-right" style="white-space: text-nowrap;"><field name="net_profit_percentage"/>%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </t>
+            </form>
+        </field>
+    </record>
+
+    <menuitem id="income_report_menu" name="Income Statement Report" parent="waaneiza_exp_report_root" action="action_income_report"/>
+
+</odoo>

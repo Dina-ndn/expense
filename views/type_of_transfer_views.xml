@@ -1,0 +1,359 @@
+<odoo>
+    <data>
+        <!-- Tree view of Cashier Cash in Transfer Model -->
+        <record id="bank_transfer_tree" model="ir.ui.view">
+            <field name="name">waaneiza.type.transfer.tree</field>
+            <field name="model">waaneiza.type.transfer</field>
+            <field name="arch" type="xml">
+                <tree string="Bank/Hand Transfer">
+                    <field name="name"/>
+                    <field name="datetime"/>
+                </tree>
+            </field>
+        </record>
+        <!-- Tree view of Hand to Bank Transfer -->
+        <record id="hand_to_bank_transfer_tree" model="ir.ui.view">
+            <field name="name">hand.to.bank.transfer.tree</field>
+            <field name="model">hand.to.bank.transfer</field>
+            <field name="arch" type="xml">
+                <tree string="Cash Transfer (Hand to Bank)">
+                    <field name="name"/>
+                    <field name="datetime"/>
+                    <field name="code"/>
+                    <field name="transfer_cash_amount" sum="transfer_cash_amount" widget="monetary"/>
+                    <field name="currency"/>
+                    <field name="bank_name"/>
+                    <field name="state" optional="show" widget="badge" decoration-success="state == 'done' or state == 'confirm'"
+                        decoration-warning="state == 'cancel'" decoration-info="state == 'draft'"/>
+                </tree>
+            </field>
+        </record>
+        <!-- Tree view of Bank to Hand Transfer -->
+        <record id="bank_to_hand_transfer_tree" model="ir.ui.view">
+            <field name="name">bank.to.hand.transfer.tree</field>
+            <field name="model">bank.to.hand.transfer</field>
+            <field name="arch" type="xml">
+                <tree string="Cash Transfer (Bank to Hand)">
+                    <field name="name"/>
+                    <field name="datetime"/>
+                    <field name="code"/>
+                    <field name="transfer_cash_amount" sum="in_hand_amout" widget="monetary"/>
+                    <field name="currency"/>
+                    <field name="state" optional="show" widget="badge" decoration-success="state == 'done' or state == 'confirm'"
+                        decoration-warning="state == 'cancel'" decoration-info="state == 'draft'"/>
+                </tree>
+            </field>
+        </record>
+        <!-- Tree view of Bank to Bank Transfer -->
+        <record id="bank_to_bank_transfer_tree" model="ir.ui.view">
+            <field name="name">bank.to.bank.transfer.tree</field>
+            <field name="model">bank.to.bank.transfer</field>
+            <field name="arch" type="xml">
+                <tree string="Cash Transfer (Bank to Bank)">
+                    <field name="name"/>
+                    <field name="datetime"/>
+                    <field name="code"/>
+                    <!-- <field name="transfer_cash_amount" sum="transfer_cash_amount" widget="monetary"/> -->
+                    <field name="to_bank_amount"/>
+                    <!-- <field name="to_bank"/> -->
+                    <field name="currency"/>
+                    <field name="bank_name"/>
+                    <field name="state" optional="show" widget="badge" decoration-success="state == 'done' or state == 'confirm'"
+                        decoration-warning="state == 'cancel'" decoration-info="state == 'draft'"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form view of Cashier Cash in Transfer Model -->
+        <record id="bank_transfer_form" model="ir.ui.view">
+            <field name="name">waaneiza.type.transfer.form</field>
+            <field name="model">waaneiza.type.transfer</field>
+            <field name="arch" type="xml">
+                <form string="Waaneiza in Transfer">
+                    <sheet>
+                        <group> 
+                            <group>
+                                <field name="name"/>
+                                <field name="datetime"/>
+                                <field name="code"/>
+                            </group>
+                            <group>
+                                <field name="transfer_cash_amount"/>
+                                <field name="currency"/>
+                                <field name="bank_name"/>
+                                <field name="bank_account_number"/>
+                            </group>
+                        </group>
+                        <separator string="Bank to Bank Transfer Details"/>
+                        <field name="bank_transfer_lines">
+                            <tree editable="bottom">
+                                <field name="from_bank"/>
+                                <field name="from_bank_amount"/>
+                                <field name="from_bank_currency"/>
+                                <field name="exchange_rate"/>
+                                <field name="to_bank"/>
+                                <field name="to_bank_amount"/>
+                                <field name="to_bank_currency"/>
+                            </tree>
+                         </field>
+                        <!-- Transfered by | Received by -->
+                       <group>
+                            <group>
+                                <field name="transfered_by_name"/>
+                                <field name="transfered_nrc"/>
+                                <field name="transfered_process_code" />
+                            </group>
+                            <group>
+                                <field name="approved_by_name"/>
+                                <field name="approved_nrc"/>
+                                <field name="approved_process_code"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <!-- Chatter -->
+                    <!-- <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="message_ids"/>
+                        <field name="activity_ids"/>
+                    </div> -->
+                    <!-- End Chatter -->
+                </form>
+            </field>
+        </record>
+        <!-- Form view of Hand to Bank Transfer -->
+        <record id="hand_to_bank_transfer_form" model="ir.ui.view">
+            <field name="name">hand.to.bank.transfer.form</field>
+            <field name="model">hand.to.bank.transfer</field>
+            <field name="arch" type="xml">
+                <form string="Cash Transfer (Hand to Bank)">
+                    <header>
+
+                        <button name="action_confirm" id="button_confirm" string="Confirm" class="btn-primary" invisible="state not in ('draft')" type="object"/>
+
+                        <button name="action_done" id="button_done" string="Mark As Done" class="btn-primary" invisible="state not in ('confirm')" type="object"/>
+
+                        <button name="action_cancel" id="button_cancel" string="Cancel" invisible="state not in ['draft','confirm']" type="object"/>
+
+                        <button name="action_draft" id="button_draft" string="Draft" class="btn-primary" invisible="state not in ['cancel']" type="object"/>
+
+                        <field name="state" widget="statusbar" options="{'clickable':'1'}" statusbar_visible="draft,done,confirm"/>
+                    </header>
+                    <sheet>
+                        <group> 
+                            <group>
+                                <field name="name" readonly ="state=='done'"/>
+                                <field name="datetime" readonly ="state=='done'"/>
+                                <field name="code" readonly ="state=='done'"/>
+                                <field name="company_id" readonly ="state=='done'"/>
+                            </group>
+                            <group>
+                                <field name="transfer_cash_amount" readonly ="state=='done'"/>
+                                <field name="currency" readonly ="state=='done'"/>
+                                <field name="bank_name" readonly ="state=='done'"/>
+                                <field name="bank_account_number" readonly ="state=='done'"/>
+                            </group>
+                        </group>
+                        <!-- Transfered by | Received by -->
+                       <group>
+                            <group>
+                                <field name="transfered_by_name" readonly ="state=='done'"/>
+                                <field name="transfered_nrc" readonly ="state=='done'"/>
+                                <field name="transfered_process_code" readonly ="state=='done'"/>
+                            </group>
+                            <group>
+                                <field name="approved_by_name" readonly ="state=='done'"/>
+                                <field name="approved_nrc" readonly ="state=='done'"/>
+                                <field name="approved_process_code" readonly ="state=='done'"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <!-- Chatter -->
+                    <!-- <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="message_ids"/>
+                        <field name="activity_ids"/>
+                    </div> -->
+                    <!-- End Chatter -->
+                </form>
+            </field>
+        </record>
+        <!-- Form view of Bank to Hand Transfer -->
+        <record id="bank_to_hand_transfer_form" model="ir.ui.view">
+            <field name="name">bank.to.hand.transfer.form</field>
+            <field name="model">bank.to.hand.transfer</field>
+            <field name="arch" type="xml">
+                <form string="Cash Transfer (Bank to Hand)">
+                    <header>
+
+                        <button name="action_confirm" id="button_confirm" string="Confirm" class="btn-primary" invisible="state not in ('draft')" type="object"/>
+
+                        <button name="action_done" id="button_done" string="Mark As Done" class="btn-primary" invisible="state not in ('confirm')" type="object"/>
+
+                        <button name="action_cancel" id="button_cancel" string="Cancel" invisible="state not in ['draft','confirm']" type="object"/>
+
+                        <button name="action_draft" id="button_draft" string="Draft" class="btn-primary" invisible="state not in ['cancel']" type="object"/>
+
+                        <field name="state" widget="statusbar" options="{'clickable':'1'}" statusbar_visible="draft,done,confirm"/>
+                    </header>
+                    <sheet>
+                        <group> 
+                            <group>
+                                <field name="name" readonly ="state=='done'"/>
+                                <field name="datetime" readonly ="state=='done'"/>
+                                <field name="code" readonly ="state=='done'"/>
+                                <field name="company_id" readonly ="state=='done'"/>
+                            </group>
+                            <group>
+                                <field name="transfer_cash_amount" readonly ="state=='done'"/>
+                                <field name="currency" readonly ="state=='done'"/>
+                                <field name="bank_name" readonly ="state=='done'"/>
+                                <field name="bank_account_number" readonly ="state=='done'"/>
+                            </group>
+                        </group>
+                        <!-- Transfered by | Received by -->
+                       <group>
+                            <group>
+                                <field name="transfered_by_name" readonly ="state=='done'"/>
+                                <field name="transfered_nrc" readonly ="state=='done'"/>
+                                <field name="transfered_process_code" readonly ="state=='done'" />
+                            </group>
+                            <group>
+                                <field name="approved_by_name" readonly ="state=='done'"/>
+                                <field name="approved_nrc" readonly ="state=='done'"/>
+                                <field name="approved_process_code" readonly ="state=='done'"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <!-- Chatter -->
+                    <!-- <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="message_ids"/>
+                        <field name="activity_ids"/>
+                    </div> -->
+                    <!-- End Chatter -->
+                </form>
+            </field>
+        </record>
+        <!-- Form view of Bank to Bank Transfer Model -->
+        <record id="bank_to_bank_transfer_form" model="ir.ui.view">
+            <field name="name">bank.to.bank.transfer.form</field>
+            <field name="model">bank.to.bank.transfer</field>
+            <field name="arch" type="xml">
+                <form string="Cash Transfer (Bank to Bank)">
+                     <header>
+
+                        <button name="action_confirm" id="button_confirm" string="Confirm" class="btn-primary" invisible="state not in ('draft')" type="object"/>
+
+                        <button name="action_done" id="button_done" string="Mark As Done" class="btn-primary" invisible="state not in ('confirm')" type="object"/>
+
+                        <button name="action_cancel" id="button_cancel" string="Cancel" invisible="state not in ['draft','confirm']" type="object"/>
+
+                        <button name="action_draft" id="button_draft" string="Draft" class="btn-primary" invisible="state not in ['cancel']" type="object"/>
+
+                        <field name="state" widget="statusbar" options="{'clickable':'1'}" statusbar_visible="draft,done,confirm"/>
+                    </header>
+                    <sheet>
+                        <group> 
+                            <group>
+                                <field name="name" readonly ="state=='done'"/>
+                                <field name="datetime" readonly ="state=='done'"/>
+                                <field name="code" readonly ="state=='done'"/>
+                            </group>
+                            <!-- <group>
+                                <field name="transfer_cash_amount"/>
+                                <field name="currency"/>
+                                <field name="bank_name"/>
+                                <field name="bank_account_number"/>
+                            </group> -->
+                        </group>
+                        <separator string="Bank to Bank Transfer Details"/>
+                        <field name="bank_transfer_lines" readonly ="state=='done'">
+                            <tree editable="bottom">
+                                <field name="from_bank"/>
+                                <field name="from_bank_amount"/>
+                                <field name="from_bank_currency"/>
+                                <field name="exchange_rate"/>
+                                <field name="to_bank"/>
+                                <field name="to_bank_amount"/>
+                                <field name="to_bank_currency"/>
+                            </tree>
+                         </field>
+                        <!-- Transfered by | Received by -->
+                       <group>
+                            <group>
+                                <field name="transfered_by_name"/>
+                                <field name="transfered_nrc"/>
+                                <field name="transfered_process_code" />
+                            </group>
+                            <group>
+                                <field name="approved_by_name"/>
+                                <field name="approved_nrc"/>
+                                <field name="approved_process_code"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <!-- Chatter -->
+                    <!-- <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="message_ids"/>
+                        <field name="activity_ids"/>
+                    </div> -->
+                    <!-- End Chatter -->
+                </form>
+            </field>
+        </record>
+
+        <!-- Action of Cashier Cash in Transfer Model -->
+        <record id="action_bank_in_transfer" model="ir.actions.act_window">
+            <field name="name">Bank in Transfer</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">waaneiza.type.transfer</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p>Create your first hand to bank Transfer!</p>
+            </field>
+        </record>
+        <!-- Action Hand to Bank Transfer -->
+        <record id="action_hand_to_bank_transfer" model="ir.actions.act_window">
+            <field name="name">Cash Transfer (Hand to Bank)</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hand.to.bank.transfer</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p>Create your first hand to bank Transfer!</p>
+            </field>
+        </record>
+        <!-- Action Bank to Hand Transfer -->
+        <record id="action_bank_to_hand_transfer" model="ir.actions.act_window">
+            <field name="name">Cash Transfer (Bank to Hand)</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">bank.to.hand.transfer</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p>Create your first Bank to Hand Transfer!</p>
+            </field>
+        </record>
+        <!-- Action Bank to Bank Transfer -->
+        <record id="action_bank_to_bank_transfer" model="ir.actions.act_window">
+            <field name="name">Cash Transfer (Bank to Bank)</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">bank.to.bank.transfer</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p>Create your first Bank to Bank Transfer!</p>
+            </field>
+        </record>
+
+        
+       <menuitem id="cash_transfer_menu" name="Cash Transfer" parent="waaneiza_cashier_root" sequence='30'/> 
+
+       <!-- <menuitem id="transfer_menu" name="Cash Transfer" parent="cash_transfer_menu" sequence='10' action="action_bank_in_transfer"/>  -->
+       
+       <!-- Hand to Bank Menu -->
+       <menuitem id="hand_to_bank_transfer_menu" name="Cash Transfer (Hand to Bank)" parent="cash_transfer_menu" sequence='20' action="action_hand_to_bank_transfer"/> 
+       <!-- Bank to Hand Menu -->
+       <menuitem id="bank_to_hand_transfer_menu" name="Cash Transfer (Bank to Hand)" parent="cash_transfer_menu" sequence='30' action="action_bank_to_hand_transfer"/> 
+       <!-- Bank to Bank Menu -->
+       <menuitem id="bank_to_bank_transfer_menu" name="Cash Transfer (Bank to Bank)" parent="cash_transfer_menu" sequence='40' action="action_bank_to_bank_transfer"/> 
+    </data>
+</odoo>

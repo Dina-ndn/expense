@@ -1,0 +1,10 @@
+<odoo>
+    <data>
+        <record id="action_owl_cashbook_dashboard" model="ir.actions.client">
+            <field name="name">Cashbook Dashboard</field>
+            <field name="tag">waaneiza_expense_cashier.cashbook_dashboard</field>
+        </record>
+
+        <!-- <menuitem id="owl_cashbook_dashboard_menu" parent="waaneiza_daily_cashbook_cashin_root" name="OWl Cashbook Dashboard" action="action_owl_cashbook_dashboard"/> -->
+    </data>
+</odoo>
